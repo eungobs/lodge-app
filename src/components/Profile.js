@@ -1,113 +1,90 @@
-import React, { useState, useEffect } from "react";
-import { Container, Card, Button, Spinner, Alert } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { getAuth, updateProfile } from "firebase/auth";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import { setUser } from "../features/userSlice"; // Make sure this path is correct
+import React, { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const user = useSelector((state) => state.user.currentUser);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      const fetchUserData = async () => {
-        try {
-          const userDoc = doc(db, "users", user.uid);
-          const docSnap = await getDoc(userDoc);
-          
-          if (docSnap.exists()) {
-            setDisplayName(docSnap.data().displayName || "");
-            setPhoneNumber(docSnap.data().phoneNumber || "");
-          } else {
-            setError("No such document!");
-          }
-        } catch (error) {
-          setError("Failed to fetch user data");
-        } finally {
-          setLoading(false);
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+        } else {
+          console.log("No such document!");
         }
-      };
-      fetchUserData();
-    } else {
+      } else {
+        navigate("/login");
+      }
       setLoading(false);
-    }
-  }, [user]);
+    };
 
-  const handleUpdateProfile = async () => {
-    try {
-      const auth = getAuth();
-      await updateProfile(auth.currentUser, {
-        displayName,
-        phoneNumber
-      });
-
-      const userDoc = doc(db, "users", user.uid);
-      await updateDoc(userDoc, {
-        displayName,
-        phoneNumber
-      });
-
-      dispatch(setUser({ ...user, displayName, phoneNumber }));
-      alert("Profile updated successfully!");
-    } catch (error) {
-      setError("Failed to update profile");
-    }
-  };
+    fetchUserData();
+  }, [navigate]);
 
   if (loading) {
     return (
-      <Container className="mt-5">
-        <h2 className="text-center">Profile</h2>
-        <div className="text-center">
-          <Spinner animation="border" />
-        </div>
-      </Container>
-    );
-  }
-
-  if (!user) {
-    return (
-      <Container className="mt-5">
-        <h2 className="text-center">Profile</h2>
-        <Card>
-          <Card.Body>
-            <Card.Title>No User Data</Card.Title>
-            <Card.Text>Please log in to see your profile details.</Card.Text>
-          </Card.Body>
-        </Card>
-      </Container>
+      <div className="text-center mt-5">
+        <Spinner animation="border" />
+      </div>
     );
   }
 
   return (
-    <Container className="mt-5">
-      <h2 className="text-center">Profile</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Card>
-        <Card.Body>
-          <Card.Title>Welcome, {user.email}</Card.Title>
-          <Card.Text>
-            <strong>Name:</strong> {displayName || "Not provided"}<br />
-            <strong>Email:</strong> {user.email}<br />
-            <strong>Phone:</strong> {phoneNumber || "Not provided"}
-          </Card.Text>
-          <Button 
-            variant="primary"
-            onClick={handleUpdateProfile}
-          >
-            Update Profile
-          </Button>
-        </Card.Body>
-      </Card>
+    <Container className="mt-5 p-5" style={{ backgroundColor: '#f1f8e9', borderRadius: '10px', maxWidth: '800px' }}>
+      <h3 className="text-center mb-4">Profile Information</h3>
+      {userData && (
+        <Row>
+          <Col md={6}>
+            <h5>Full Name:</h5>
+            <p>{userData.fullName}</p>
+          </Col>
+          <Col md={6}>
+            <h5>Email:</h5>
+            <p>{userData.email}</p>
+          </Col>
+          <Col md={6}>
+            <h5>Phone Number:</h5>
+            <p>{userData.phoneNumber}</p>
+          </Col>
+          <Col md={6}>
+            <h5>Username:</h5>
+            <p>{userData.username}</p>
+          </Col>
+          <Col md={6}>
+            <h5>Street Address:</h5>
+            <p>{userData.streetAddress}</p>
+          </Col>
+          <Col md={6}>
+            <h5>City:</h5>
+            <p>{userData.city}</p>
+          </Col>
+          <Col md={6}>
+            <h5>State/Country:</h5>
+            <p>{userData.stateCountry}</p>
+          </Col>
+          <Col md={6}>
+            <h5>Postal Code:</h5>
+            <p>{userData.postalCode}</p>
+          </Col>
+          <Col md={6}>
+            <h5>Country:</h5>
+            <p>{userData.country}</p>
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };
 
 export default Profile;
+
 

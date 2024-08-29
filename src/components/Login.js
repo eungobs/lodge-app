@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../features/userActions';
+import { loginUser } from '../features/userActions'; // Ensure this is correctly implemented
 import { useNavigate } from 'react-router-dom';
 import { FaSun } from 'react-icons/fa';
 
@@ -16,14 +16,22 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(''); // Clear any previous error
 
     try {
-      await dispatch(loginUser({ email, password })).unwrap();
+      // Dispatch the loginUser action and wait for it to complete
+      const response = await dispatch(loginUser({ email, password })).unwrap();
+      console.log('Login successful:', response);
+      
+      // Navigate to the profile page on successful login
       navigate('/profile');
     } catch (error) {
-      setError(error.message);
+      console.error('Login failed:', error);
+      
+      // Handle the error and set an appropriate message
+      setError(error.message || 'Login failed. Please check your credentials.');
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop the loading spinner
     }
   };
 
@@ -68,5 +76,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

@@ -1,4 +1,3 @@
-// firebase.js
-import { auth, db } from './firebaseConfig'; // Import auth and db directly from firebaseConfig
+import { auth, db, storage } from './firebaseConfig';  // Import auth, db, and storage
 
-export { auth, db };
+export { auth, db, storage };  // Export them
