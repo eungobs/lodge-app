@@ -7,6 +7,8 @@ import AdminPanel from './components/AdminPanel';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 function App() {
   return (
