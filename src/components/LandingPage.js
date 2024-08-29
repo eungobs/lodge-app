@@ -19,7 +19,12 @@ const LandingPage = () => {
         <div className="col-6 text-center">
           <h1 className="lodge-title">Sunset Heaven Lodge</h1>
         </div>
-        <div className="col-3"></div>
+        <div className="col-3 text-right">
+          {/* New buttons */}
+          <Link to="/my-profile" className="btn btn-secondary">My-Profile</Link>
+          <Link to="/accommodation" className="btn btn-secondary">Accommodation</Link>
+          <Link to="/gallery" className="btn btn-secondary">Gallery</Link>
+        </div>
       </header>
 
       {/* Main Image Section */}
@@ -63,8 +68,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-
-
-
-

@@ -9,6 +9,16 @@
   padding: 10px;
 }
 
+.header-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.header-buttons .btn {
+  margin-bottom: 10px; /* Add space between buttons */
+}
+
 .logo {
   width: 80px;
   height: 80px;
