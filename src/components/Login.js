@@ -1,26 +1,29 @@
-import React, { useState } from "react";
-import { Container, Form, Button, Alert } from "react-bootstrap";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
-import { useDispatch } from "react-redux";
-import { setUser } from "../features/userSlice";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../features/userActions';
+import { useNavigate } from 'react-router-dom';
+import { FaSun } from 'react-icons/fa';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      dispatch(setUser(userCredential.user));
-      navigate("/");
+      await dispatch(loginUser({ email, password })).unwrap();
+      navigate('/profile');
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,8 +52,15 @@ const Login = () => {
             required
           />
         </Form.Group>
-        <Button className="mt-3" variant="primary" type="submit">
-          Login
+        <Button className="mt-3" variant="primary" type="submit" disabled={loading}>
+          {loading ? (
+            <>
+              <FaSun className="mr-2" />
+              Logging in...
+            </>
+          ) : (
+            'Login'
+          )}
         </Button>
       </Form>
     </Container>
@@ -58,3 +68,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

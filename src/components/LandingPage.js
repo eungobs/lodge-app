@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import './LandingPage.css';
+import './LandingPage.css'; // Assuming you have custom CSS
 
 const LandingPage = () => {
   return (
@@ -13,6 +13,7 @@ const LandingPage = () => {
           <div className="buttons">
             <Link to="/register" className="btn btn-primary register-btn">Register</Link>
             <Link to="/login" className="btn btn-primary login-btn">Login</Link>
+            <Link to="/about" className="btn btn-primary about-btn">About</Link> {/* New About Button */}
           </div>
         </div>
         <div className="col-6 text-center">
@@ -62,6 +63,7 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
 
 
 

@@ -9,7 +9,7 @@
   margin: 2rem auto; /* Center horizontally and space from top */
   position: relative; /* Relative positioning for alignment */
   top: 10%; /* Position from the top */
-  left: 50%; /* Position from the left */
+  left: 40%; /* Position from the left */
   transform: translateX(-80%); /* Center the container horizontally */
   box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Optional: Add shadow for better visibility */
 }

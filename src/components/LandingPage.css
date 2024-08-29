@@ -99,3 +99,14 @@
   margin-left: 20px;
 }
 
+/* Additional CSS for About Button */
+.about-btn {
+  margin-left: 10px;
+  background-color: #4CAF50; /* Customize the color */
+  color: white;
+}
+
+.about-btn:hover {
+  background-color: #45a049; /* Customize the hover color */
+}
+

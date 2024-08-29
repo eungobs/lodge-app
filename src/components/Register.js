@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Alert, Row, Col } from "react-bootstrap";
+import { Container, Form, Button, Alert, Row, Col, Spinner } from "react-bootstrap";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -10,19 +10,27 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     if (password !== confirmPassword) {
       setError("Passwords do not match");
+      setLoading(false);
       return;
     }
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       navigate("/login");
     } catch (error) {
-      setError(error.message);
+      setError("Failed to register. Please check your details and try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,6 +41,7 @@ const Register = () => {
       </div>
       <h3 className="text-center">Personal Information</h3>
       {error && <Alert variant="danger">{error}</Alert>}
+      {loading && <div className="text-center"><Spinner animation="border" /></div>}
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col>
@@ -203,8 +212,8 @@ const Register = () => {
           <Button variant="info" type="button">
             Accept terms
           </Button>
-          <Button variant="success" type="submit">
-            Register
+          <Button variant="success" type="submit" disabled={loading}>
+            {loading ? <Spinner as="span" animation="border" size="sm" /> : 'Register'}
           </Button>
         </div>
       </Form>

@@ -7,6 +7,7 @@ import AdminPanel from './components/AdminPanel';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
+import About from './components/About';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/about" element={<About />} /> {/* Add About Route */}
       </Routes>
     </Router>
   );

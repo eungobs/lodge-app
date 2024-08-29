@@ -1,17 +1,23 @@
-// src/firebaseConfig.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
 
+// web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyBgPxKTtYKIqADa6IYRQRJTWNcLGFQjCRI",
+  authDomain: "sunset-heaven-lodge.firebaseapp.com",
+  projectId: "sunset-heaven-lodge",
+  storageBucket: "sunset-heaven-lodge.appspot.com",
+  messagingSenderId: "962621175424",
+  appId: "1:962621175424:web:08cec9632036b7a6285865",
+  measurementId: "G-BWHSRZB1YD" // Measurement ID for Google Analytics
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase Auth, Firestore, and Analytics
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const analytics = getAnalytics(app);
