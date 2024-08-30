@@ -102,7 +102,7 @@ const Register = () => {
   return (
     <Container className="mt-5 p-5" style={{ backgroundColor: '#e0f7fa', borderRadius: '10px', maxWidth: '800px' }}>
       <div className="text-center mb-4">
-        <img src="your-logo-url-here" alt="Logo" style={{ width: '80px', borderRadius: '50%' }} />
+        <img src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg  " alt="Logo" style={{ width: '80px', borderRadius: '50%' }} />
       </div>
       <h3 className="text-center">Personal Information</h3>
       {error && <Alert variant="danger">{error}</Alert>}
@@ -297,11 +297,20 @@ const Register = () => {
           </Col>
         </Row>
 
-        <div className="text-center mt-4">
-          <Button variant="primary" type="submit" disabled={loading}>
-            {loading ? <Spinner animation="border" size="sm" /> : "Register"}
+        <Button variant="secondary" type="button" className="mt-4 w-100">
+          Newsletter Subscription
+        </Button>
+        <div className="d-flex justify-content-between mt-3">
+          <Button variant="info" type="button">
+            Accept terms
+          </Button>
+          <Button variant="warning" type="button">
+            Subscription
           </Button>
         </div>
+        <Button variant="success" type="submit" className="mt-4 w-100">
+          Register
+        </Button>
       </Form>
     </Container>
   );

@@ -16,7 +16,7 @@
 
 /* Logo styling */
 .container img {
-  width: 80px; /* Logo width */
+  width: 150px; /* Logo width */
   border-radius: 50%; /* Circular logo */
   margin-bottom: 1rem; /* Spacing below the logo */
   display: block; /* Ensure logo is a block-level element */

@@ -9,7 +9,7 @@ const LandingPage = () => {
       {/* Header Section */}
       <header className="row">
         <div className="col-3">
-          <img src="https://i.pinimg.com/564x/85/32/a8/8532a8efd0c5e231bc12537d829605e5.jpg" alt="Logo" className="logo" />
+          <img src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg" alt="Logo" className="logo" />
           <div className="buttons">
             <Link to="/register" className="btn btn-primary register-btn">Register</Link>
             <Link to="/login" className="btn btn-primary login-btn">Login</Link>
