@@ -1,0 +1,108 @@
+/* General reset for margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Container styling for the main layout */
+.container {
+  max-width: 1200px; /* Max width for larger screens */
+  margin: 0 auto; /* Center the container */
+  padding: 20px; /* Padding around the container */
+}
+
+/* Styling for the title */
+h2 {
+  font-size: 2.5rem; /* Responsive font size for title */
+  margin-bottom: 20px; /* Space below the title */
+  text-align: center; /* Center align the title */
+}
+
+/* Card style for each accommodation */
+.card {
+  border: 1px solid #ddd; /* Add a border around each card */
+  border-radius: 8px; /* Rounded corners */
+  overflow: hidden; /* Ensure images fit within the card */
+  transition: transform 0.2s; /* Smooth transition for hover effect */
+  height: 400px; /* Fixed height for uniform card size */
+}
+
+/* Hover effect for cards */
+.card:hover {
+  transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+/* Main image styling */
+.main-image,
+.gallery-image {
+  width: 100%; /* Full width for responsive design */
+  height: 200px; /* Fixed height for square shape */
+  object-fit: cover; /* Cover the area without distortion */
+}
+
+/* Styling for the gallery container */
+.gallery-container {
+  position: relative; /* Positioning for close button */
+}
+
+/* Close button for the gallery */
+.close-gallery-button {
+  position: absolute; /* Positioning within the gallery */
+  top: 10px;
+  right: 10px;
+}
+
+/* Gallery images styling */
+.gallery-images {
+  display: flex; /* Flexbox for image alignment */
+  flex-wrap: wrap; /* Wrap images to the next line */
+  justify-content: center; /* Center align images */
+  margin-top: 10px; /* Space above gallery images */
+}
+
+/* Individual gallery image styling */
+.gallery-image {
+  width: calc(33% - 10px); /* Responsive width with margin */
+  margin: 5px; /* Space around each image */
+  height: 150px; /* Fixed height for square shape */
+  object-fit: cover; /* Cover the area without distortion */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gallery-image {
+    width: calc(50% - 10px); /* Two images per row on tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-image {
+    width: calc(100% - 10px); /* Full width on mobile */
+  }
+
+  h2 {
+    font-size: 2rem; /* Smaller title font size for mobile */
+  }
+}
+
+/* Button styling */
+.view-more-button,
+.close-gallery-button,
+.mt-3 {
+  color: #007bff; /* Bootstrap primary color */
+  text-decoration: underline; /* Underline for clarity */
+}
+
+/* Card body text styling */
+.card-body {
+  padding: 20px; /* Padding inside card body */
+}
+
+/* Checkbox label styling */
+.form-check {
+  margin-top: 10px; /* Space above checkbox */
+}
+
+
+
