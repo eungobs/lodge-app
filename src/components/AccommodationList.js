@@ -129,8 +129,9 @@ const sampleAccommodations = [
       'https://i.pinimg.com/736x/c8/82/3f/c8823f07ef0dce525c3861a3d5454a50.jpg'
     ],
     name: 'Deluxe Room',
-    description: 'A spacious room with a beautiful view.',
-    price: 150,
+    description: 'A spacious retreat offering breathtaking mountain views.',
+    price: 1050,
+    currency: 'ZAR',
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
   },
@@ -142,8 +143,9 @@ const sampleAccommodations = [
       'https://i.pinimg.com/736x/c8/82/3f/c8823f07ef0dce525c3861a3d5454a50.jpg'
     ],
     name: 'Deluxe Room',
-    description: 'A spacious room with a beautiful view.',
-    price: 150,
+    description: 'A spacious retreat offering breathtaking mountain views.',
+    price: 1050,
+    currency: 'ZAR',
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
   },
@@ -168,8 +170,9 @@ const sampleAccommodations = [
       'https://i.pinimg.com/736x/c8/82/3f/c8823f07ef0dce525c3861a3d5454a50.jpg'
     ],
     name: 'Deluxe Room',
-    description: 'A spacious room with a beautiful view.',
-    price: 150,
+    description: 'A spacious retreat offering breathtaking mountain views.',
+    price: 899,
+    currency: 'ZAR',
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
   },
@@ -181,8 +184,9 @@ const sampleAccommodations = [
       'https://i.pinimg.com/736x/c8/82/3f/c8823f07ef0dce525c3861a3d5454a50.jpg'
     ],
     name: 'Deluxe Room',
-    description: 'A spacious room with a beautiful view.',
-    price: 150,
+    description: 'A spacious retreat offering breathtaking mountain views.',
+    price: 899,
+    currency: 'ZAR',
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
   },
@@ -194,10 +198,12 @@ const sampleAccommodations = [
       'https://i.pinimg.com/736x/c8/82/3f/c8823f07ef0dce525c3861a3d5454a50.jpg'
     ],
     name: 'Deluxe Room',
-    description: 'A spacious room with a beautiful view.',
-    price: 150,
+    description: 'A spacious retreat offering breathtaking mountain views.',
+    price: 899,
+    currency: 'ZAR',
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
+
   },
   // Add more rooms as needed
 ];
