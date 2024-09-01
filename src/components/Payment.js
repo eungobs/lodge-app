@@ -102,7 +102,9 @@ const Payment = () => {
   return (
     <Container className="mt-5">
       <h2 className="text-center">Payment</h2>
-      <p className="text-center">Total Amount: ${bookingDetails?.totalAmount || 'N/A'}</p>
+      <p className="text-center">
+        Total Amount: ${bookingDetails?.totalAmount || 'N/A'}
+      </p>
 
       {paymentStatus === 'failed' && <Alert variant="danger">{error}</Alert>}
       {paymentStatus === 'succeeded' && (
@@ -181,5 +183,6 @@ const Payment = () => {
 };
 
 export default Payment;
+
 
 

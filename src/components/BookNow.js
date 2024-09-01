@@ -1,3 +1,4 @@
+// src/components/BookNow.js
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -11,7 +12,6 @@ const BookNow = ({ handleBooking }) => {
   const [accommodation, setAccommodation] = useState(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('bankTransfer');
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -53,7 +53,6 @@ const BookNow = ({ handleBooking }) => {
       name,
       email,
       accommodationId: accommodation.id,
-      paymentMethod,
       checkInDate,
       checkOutDate,
       totalAmount,
@@ -117,24 +116,6 @@ const BookNow = ({ handleBooking }) => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formPaymentMethod">
-            <Form.Label>Payment Method</Form.Label>
-            <Form.Check
-              type="radio"
-              label="Online Bank Payment"
-              value="onlineBankPayment"
-              checked={paymentMethod === 'onlineBankPayment'}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            <Form.Check
-              type="radio"
-              label="Bank Transfer"
-              value="bankTransfer"
-              checked={paymentMethod === 'bankTransfer'}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-          </Form.Group>
-
           <div className="mt-3">
             <strong>Total Amount: ${totalAmount}</strong>
           </div>
@@ -146,7 +127,7 @@ const BookNow = ({ handleBooking }) => {
       ) : (
         <p>Loading accommodation details...</p>
       )}
-      {message && <p className="text-success text-center mt-3">{message}</p>}
+      {message && <p className="text-danger text-center mt-3">{message}</p>}
     </Container>
   );
 };
@@ -156,10 +137,3 @@ BookNow.propTypes = {
 };
 
 export default BookNow;
-
-
-
-
-
-
-
