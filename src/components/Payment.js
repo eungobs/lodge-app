@@ -25,6 +25,9 @@ const Payment = () => {
   const [cardNumber, setCardNumber] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCVV, setCardCVV] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [reference, setReference] = useState('');
+  const [paymentMessage, setPaymentMessage] = useState('');
 
   const db = getFirestore(); // Initialize Firestore
   const auth = getAuth(); // Initialize Firebase Auth
@@ -54,8 +57,11 @@ const Payment = () => {
           throw new Error('Please fill in all card details.');
         }
         paymentSuccessFlag = processCardPayment(cardNumber, cardExpiry, cardCVV);
-      } else {
-        paymentSuccessFlag = processBankPayment(paymentMethod);
+      } else if (paymentMethod === 'bankTransfer') {
+        if (!accountNumber || !reference) {
+          throw new Error('Please fill in all bank transfer details.');
+        }
+        paymentSuccessFlag = processBankPayment(accountNumber, reference);
       }
 
       if (paymentSuccessFlag) {
@@ -75,8 +81,13 @@ const Payment = () => {
         // Reset booking state if necessary
         dispatch(resetBooking());
 
-        // Redirect to confirmation page
-        navigate('/confirmation', { state: { bookingDetails, bookingId } });
+        // Set custom success message
+        setPaymentMessage('Payment successful! We can’t wait to host you at our lodge.');
+
+        // Redirect to confirmation page after a short delay to show the message
+        setTimeout(() => {
+          navigate('/confirmation', { state: { bookingDetails, bookingId } });
+        }, 2000); // 2 seconds delay
       } else {
         throw new Error('Payment processing failed.');
       }
@@ -92,9 +103,9 @@ const Payment = () => {
     return true; // Return true if successful
   };
 
-  const processBankPayment = (method) => {
+  const processBankPayment = (accountNumber, reference) => {
     // Placeholder for real bank payment processing logic
-    console.log('Processing bank payment', { method });
+    console.log('Processing bank payment', { accountNumber, reference });
     // Implement real bank payment integration here
     return true; // Return true if successful
   };
@@ -107,20 +118,13 @@ const Payment = () => {
       </p>
 
       {paymentStatus === 'failed' && <Alert variant="danger">{error}</Alert>}
-      {paymentStatus === 'succeeded' && (
-        <Alert variant="success">Payment successful! Redirecting...</Alert>
+      {paymentStatus === 'succeeded' && paymentMessage && (
+        <Alert variant="success">{paymentMessage}</Alert>
       )}
 
       <Form onSubmit={handlePayment}>
         <Form.Group controlId="formPaymentMethod">
           <Form.Label>Select Payment Method</Form.Label>
-          <Form.Check
-            type="radio"
-            label="Online Bank Payment"
-            value="onlineBankPayment"
-            checked={paymentMethod === 'onlineBankPayment'}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          />
           <Form.Check
             type="radio"
             label="Bank Transfer"
@@ -174,6 +178,32 @@ const Payment = () => {
           </>
         )}
 
+        {paymentMethod === 'bankTransfer' && (
+          <>
+            <Form.Group controlId="formAccountNumber">
+              <Form.Label>Account Number</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter account number"
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formReference">
+              <Form.Label>Reference</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter reference"
+                value={reference}
+                onChange={(e) => setReference(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </>
+        )}
+
         <Button variant="primary" type="submit" className="mt-3" disabled={paymentStatus === 'processing'}>
           {paymentStatus === 'processing' ? 'Processing...' : 'Pay Now'}
         </Button>
@@ -183,6 +213,4 @@ const Payment = () => {
 };
 
 export default Payment;
-
-
 
