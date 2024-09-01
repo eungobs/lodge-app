@@ -13,7 +13,10 @@ const BookNow = ({ handleBooking }) => {
   const [paymentMethod, setPaymentMethod] = useState('bankTransfer');
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
+  const [totalAmount, setTotalAmount] = useState(0);
   const [message, setMessage] = useState('');
+
+  const pricePerNight = 150; // Define the price per night here
 
   useEffect(() => {
     // Fetch accommodation details based on the ID
@@ -27,9 +30,19 @@ const BookNow = ({ handleBooking }) => {
     fetchAccommodation();
   }, [id]);
 
+  useEffect(() => {
+    if (checkInDate && checkOutDate) {
+      const diffTime = Math.abs(checkOutDate - checkInDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Calculate the number of days
+      setTotalAmount(diffDays * pricePerNight); // Calculate the total amount
+    } else {
+      setTotalAmount(0);
+    }
+  }, [checkInDate, checkOutDate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!accommodation) {
       setMessage('Accommodation not found');
       return;
@@ -42,6 +55,7 @@ const BookNow = ({ handleBooking }) => {
       paymentMethod,
       checkInDate,
       checkOutDate,
+      totalAmount,
     };
 
     handleBooking(bookingDetails);
@@ -121,6 +135,10 @@ const BookNow = ({ handleBooking }) => {
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
           </Form.Group>
+
+          <div className="mt-3">
+            <strong>Total Amount: ${totalAmount}</strong>
+          </div>
 
           <Button variant="primary" type="submit" className="mt-3">
             Confirm Booking
