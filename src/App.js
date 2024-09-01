@@ -10,6 +10,7 @@ import Profile from './components/Profile';
 import About from './components/About';
 import Gallery from './components/Gallery';
 import BookNow from './components/BookNow';
+import Payment from './components/Payment';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // Sample data for accommodations
@@ -237,6 +238,7 @@ const App = () => {
           path="/book/:id" 
           element={<BookNow handleBooking={handleBooking} />} 
         />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </Router>
   );

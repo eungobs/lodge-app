@@ -1,4 +1,4 @@
-// firebase.js
+// src/firebase.js
 import { auth, db, storage } from './firebaseConfig';  // Import auth, db, and storage
 import { doc, getDoc } from 'firebase/firestore';
 
@@ -15,6 +15,8 @@ export const getAccommodationFromFirebase = async (id) => {
 };
 
 // Export other items if needed
-export { auth, db, storage };
+export { auth, db, storage };  // Ensure db is included in the exports
+
+
 
 

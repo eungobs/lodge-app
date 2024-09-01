@@ -3,10 +3,11 @@ import { Container, Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const BookNow = ({ handleBooking }) => {
   const { id } = useParams(); // Get the ID from the URL
+  const navigate = useNavigate(); // Initialize navigate hook
   const [accommodation, setAccommodation] = useState(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -59,11 +60,9 @@ const BookNow = ({ handleBooking }) => {
     };
 
     handleBooking(bookingDetails);
-    setMessage('Booking successful!');
-    setName('');
-    setEmail('');
-    setCheckInDate(null);
-    setCheckOutDate(null);
+
+    // Navigate to payment page with the booking details
+    navigate('/payment', { state: { bookingDetails } });
   };
 
   return (
@@ -157,3 +156,10 @@ BookNow.propTypes = {
 };
 
 export default BookNow;
+
+
+
+
+
+
+
