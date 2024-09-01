@@ -139,4 +139,3 @@ BookNow.propTypes = {
 };
 
 export default BookNow;
-

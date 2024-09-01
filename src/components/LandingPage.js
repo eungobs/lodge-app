@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import './LandingPage.css'; // Assuming you have a custom CSS file for styling
+import './LandingPage.css';
 
 const LandingPage = () => {
   return (

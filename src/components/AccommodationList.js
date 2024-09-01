@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AccommodationList = ({ accommodations }) => {
   const [showAllImages, setShowAllImages] = useState(null);
-  const navigate = useNavigate(); // Use the hook to get navigate function
+  const navigate = useNavigate();
 
   const renderCarousel = (images, id) => (
     <div className="carousel-container">
@@ -30,7 +30,7 @@ const AccommodationList = ({ accommodations }) => {
   );
 
   const handleBook = (id) => {
-    navigate(`/book/${id}`); // Use navigate to redirect to the booking page
+    navigate(`/book/${id}`); // Pass the ID to the booking page
   };
 
   return (
@@ -82,3 +82,4 @@ AccommodationList.propTypes = {
 };
 
 export default AccommodationList;
+

@@ -1,7 +1,8 @@
+// src/components/AdminPanel.js
 import React, { useEffect, useState } from "react";
 import { Container, Button, Table, Spinner, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setAccommodations } from "../features/accommodationsSlice";
+import { setAccommodations } from "../features/accommodationsSlice"; // Ensure correct import path
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -14,16 +15,20 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchAccommodations = async () => {
       try {
+        // Fetch accommodations from Firestore
         const querySnapshot = await getDocs(collection(db, "accommodations"));
         const accommodationsData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data()
         }));
+        
+        // Dispatch the fetched accommodations to the store
         dispatch(setAccommodations(accommodationsData));
       } catch (err) {
+        // Handle errors
         setError("Failed to fetch accommodations");
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false after fetching
       }
     };
 
@@ -58,6 +63,9 @@ const AdminPanel = () => {
     );
   }
 
+  // Ensure accommodations is always defined and check for empty list
+  const isAccommodationsEmpty = !Array.isArray(accommodations) || accommodations.length === 0;
+
   return (
     <Container className="mt-5">
       <h2 className="text-center">Admin Panel</h2>
@@ -74,28 +82,34 @@ const AdminPanel = () => {
           </tr>
         </thead>
         <tbody>
-          {accommodations.map((acc) => (
-            <tr key={acc.id}>
-              <td>{acc.name}</td>
-              <td>{acc.description}</td>
-              <td>${acc.price}</td>
-              <td>
-                <Button
-                  variant="warning"
-                  className="me-2"
-                  onClick={() => handleEdit(acc.id)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDelete(acc.id)}
-                >
-                  Delete
-                </Button>
-              </td>
+          {isAccommodationsEmpty ? (
+            <tr>
+              <td colSpan="4" className="text-center">No accommodations available</td>
             </tr>
-          ))}
+          ) : (
+            accommodations.map((acc) => (
+              <tr key={acc.id}>
+                <td>{acc.name}</td>
+                <td>{acc.description}</td>
+                <td>${acc.price}</td>
+                <td>
+                  <Button
+                    variant="warning"
+                    className="me-2"
+                    onClick={() => handleEdit(acc.id)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDelete(acc.id)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </Container>
@@ -103,3 +117,5 @@ const AdminPanel = () => {
 };
 
 export default AdminPanel;
+
+

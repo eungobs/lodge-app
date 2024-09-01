@@ -1,0 +1,22 @@
+/* src/styles/BookNow.css */
+
+.book-now-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.book-now-container h2 {
+  margin-bottom: 20px;
+}
+
+.book-now-container .form-control {
+  margin-bottom: 15px;
+}
+
+.book-now-container .btn-primary {
+  width: 100%;
+}
+
