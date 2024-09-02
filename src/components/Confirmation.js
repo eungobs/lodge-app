@@ -1,4 +1,3 @@
-// src/components/Confirmation.js
 import React from 'react';
 import { Container, Card } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
@@ -9,6 +8,8 @@ const Confirmation = () => {
   const { bookingDetails, bookingId } = location.state || {};
 
   const { user } = useSelector((state) => state.user);
+
+  console.log('Location state:', location.state); // Debug log
 
   if (!bookingDetails || !bookingId) {
     return (

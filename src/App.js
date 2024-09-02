@@ -11,6 +11,7 @@ import About from './components/About';
 import Gallery from './components/Gallery';
 import BookNow from './components/BookNow';
 import Payment from './components/Payment';
+import PayPalButton from './components/PayPalButton'; // Import the PayPalButton component
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // Sample data for accommodations
@@ -210,7 +211,7 @@ const accommodations = [
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
   },
-  // Add more rooms as needed
+  
 ];
 
 const App = () => {
@@ -239,6 +240,7 @@ const App = () => {
           element={<BookNow handleBooking={handleBooking} />} 
         />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/paypal" element={<div><h1>PayPal Payment Integration</h1><PayPalButton /></div>} />
       </Routes>
     </Router>
   );
