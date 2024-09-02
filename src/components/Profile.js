@@ -40,14 +40,24 @@ const Profile = () => {
     const user = auth.currentUser;
 
     if (user) {
-      // Delete the user's document in Firestore
-      await deleteDoc(doc(db, "users", user.uid));
+      // Show confirmation dialog
+      const confirmDelete = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
 
-      // Delete the user's authentication account
-      await user.delete();
+      if (confirmDelete) {
+        try {
+          // Delete the user's document in Firestore
+          await deleteDoc(doc(db, "users", user.uid));
 
-      // Navigate to the home or login page after deletion
-      navigate('/');
+          // Delete the user's authentication account
+          await user.delete();
+
+          // Navigate to the home or login page after deletion
+          navigate('/');
+        } catch (error) {
+          console.error("Error deleting account:", error);
+          alert("There was an error deleting your account. Please try again.");
+        }
+      }
     }
   };
 
@@ -114,6 +124,7 @@ const Profile = () => {
 };
 
 export default Profile;
+
 
 
 
