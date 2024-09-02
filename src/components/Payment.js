@@ -14,14 +14,13 @@ const Payment = () => {
     dispatch(startPayment());
 
     try {
-      // Store booking details in Firestore
       const bookingId = new Date().getTime(); // Replace with your actual booking ID logic
       const user = auth.currentUser;
 
       if (user) {
         await setDoc(doc(db, 'bookings', `${bookingId}`), {
           userId: user.uid,
-          bookingDetails: details, // Replace with actual booking details
+          bookingDetails: details,
           paymentMethod: paymentMethod,
           status: 'Confirmed',
           createdAt: new Date(),
@@ -33,6 +32,7 @@ const Payment = () => {
         throw new Error('User is not authenticated.');
       }
     } catch (err) {
+      console.error('Error saving booking:', err.message);
       dispatch(paymentFailed(err.message));
     }
   }, [dispatch, paymentMethod]);
@@ -55,6 +55,7 @@ const Payment = () => {
           });
         },
         onError: (err) => {
+          console.error('PayPal error:', err);
           dispatch(paymentFailed('PayPal payment failed.'));
         },
       }).render('#paypal-button-container');
@@ -84,4 +85,3 @@ const Payment = () => {
 };
 
 export default Payment;
-
