@@ -89,7 +89,11 @@ const LandingPage = () => {
             <a href="https://chrome.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-chrome"></i></a>
           </div>
         </div>
-        <div className="col-6"></div>
+        <div className="col-6 text-center">
+          <a href="https://www.google.com/maps?q=Cradlemoon+Road,+Muldersdrift+Mountains" target="_blank" rel="noopener noreferrer">
+            <i className="fas fa-map-marker-alt"></i> View on Google Maps
+          </a>
+        </div>
         <div className="col-3 text-right">
           <a href="mailto:sunsetlodge@gmail.com"><i className="fas fa-envelope"></i> sunsetlodge@gmail.com</a>
           <a href="tel:0110403322"><i className="fas fa-phone"></i> 011-040-3322</a>
@@ -100,6 +104,7 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
 
 
 
