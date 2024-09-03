@@ -7,6 +7,7 @@ import AdminPanel from './components/AdminPanel';
 import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
+import EditProfile from './components/EditProfile';
 import About from './components/About';
 import Gallery from './components/Gallery';
 import BookNow from './components/BookNow';
@@ -233,6 +234,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/about" element={<About />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route 
