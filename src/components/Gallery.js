@@ -64,13 +64,13 @@ const Gallery = () => {
       <h1>Gallery</h1>
       <div className="social-icons">
         <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-          <img src="facebook-icon.png" alt="Facebook" />
+          <img src="https://www.pngkey.com/png/full/303-3035126_facebook-circle-icon-png-download-facebook-icon-50x50.png" alt="Facebook" />
         </a>
         <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">
-          <img src="tiktok-icon.png" alt="TikTok" />
+          <img src="https://static.vecteezy.com/system/resources/previews/016/716/450/original/tiktok-icon-free-png.png" alt="TikTok" />
         </a>
         <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-          <img src="twitter-icon.png" alt="Twitter" />
+          <img src="https://vectorseek.com/wp-content/uploads/2023/07/Twitter-X-Logo-Vector-01-2.jpg" alt="Twitter" />
         </a>
       </div>
       <div className="contact-info">

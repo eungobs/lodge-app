@@ -54,28 +54,28 @@ const LandingPage = () => {
           <div className="small-image">
             <img src="https://i.pinimg.com/564x/ad/6b/a7/ad6ba7bf5446d0acbc39adb41cbc94c9.jpg" alt="Room for 2 Adults" />
             <p className="room-details">2 Adults | Breakfast & Dinner</p>
-            <p className="price"><span className="crushed-price">$300</span> $250</p>
+            <p className="price"><span className="crushed-price">ZA1200</span> ZA950</p>
           </div>
         </div>
         <div className="col-3">
           <div className="small-image">
             <img src="https://i.pinimg.com/564x/72/c9/21/72c921591058bba1215c367dc0d91708.jpg" alt="Group Room" />
             <p className="room-details">Group (School/Church) | Breakfast & Dinner</p>
-            <p className="price"><span className="crushed-price">$500</span> $400</p>
+            <p className="price"><span className="crushed-price">ZA1950</span> ZA1450</p>
           </div>
         </div>
         <div className="col-3">
           <div className="small-image">
             <img src="https://i.pinimg.com/564x/d0/55/c6/d055c6192dfc58a5fbfef88f4394d5f1.jpg" alt="Room for Family" />
             <p className="room-details">2 Adults & 2 Kids | Breakfast & Dinner</p>
-            <p className="price"><span className="crushed-price">$300</span> $250</p>
+            <p className="price"><span className="crushed-price">ZA1100</span> ZA750</p>
           </div>
         </div>
         <div className="col-3">
           <div className="small-image">
             <img src="https://i.pinimg.com/564x/88/5b/95/885b9565e63b8071b0d403a16f47ac4a.jpg" alt="Shared Room" />
             <p className="room-details">Sharing (4 People) | Breakfast & Dinner</p>
-            <p className="price"><span className="crushed-price">$400</span> $320</p>
+            <p className="price"><span className="crushed-price">ZA1400</span> ZA920</p>
           </div>
         </div>
       </section>

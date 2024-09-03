@@ -22,9 +22,12 @@ const Register = () => {
   const [idType, setIdType] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [idNumber, setIdNumber] = useState("");
-  const [image, setImage] = useState(null); // State for image
+  const [image, setImage] = useState(null); 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [subscriptionSuccessful, setSubscriptionSuccessful] = useState(false);
   const navigate = useNavigate();
 
   const handleImageChange = (e) => {
@@ -45,7 +48,6 @@ const Register = () => {
     }
 
     try {
-      // Check if the email is already in use
       const methods = await fetchSignInMethodsForEmail(auth, email);
       if (methods.length > 0) {
         setError("The email address is already in use. Please use a different email.");
@@ -53,22 +55,17 @@ const Register = () => {
         return;
       }
 
-      // Attempt to create the user
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      let imageUrl = ""; // Default empty image URL
+      let imageUrl = ""; 
 
       if (image) {
-        // Create a reference to the storage location
         const imageRef = ref(storage, `user-images/${user.uid}`);
-        await uploadBytes(imageRef, image); // Upload the image
-
-        // Get the download URL
+        await uploadBytes(imageRef, image); 
         imageUrl = await getDownloadURL(imageRef);
       }
 
-      // Save additional user data to Firestore
       await setDoc(doc(db, "users", user.uid), {
         fullName,
         email,
@@ -82,13 +79,12 @@ const Register = () => {
         idType,
         dateOfBirth,
         idNumber,
-        profileImage: imageUrl, // Save the image URL
+        profileImage: imageUrl, 
       });
 
-      // Navigate to the profile page after registration
       navigate("/profile");
     } catch (error) {
-      console.error("Error during registration:", error); // Log the error to the console
+      console.error("Error during registration:", error);
       if (error.code === 'auth/email-already-in-use') {
         setError("The email address is already in use. Please use a different email.");
       } else {
@@ -99,10 +95,33 @@ const Register = () => {
     }
   };
 
+  const handleNewsletterClick = () => {
+    setNewsletterSubscribed(!newsletterSubscribed);
+    if (!newsletterSubscribed) {
+      alert("Successfully subscribed to the newsletter!");
+    } else {
+      alert("Newsletter subscription cancelled");
+    }
+  };
+
+  const handleTermsClick = () => {
+    setTermsAccepted(!termsAccepted);
+    if (!termsAccepted) {
+      alert("Terms accepted successfully!");
+    } else {
+      alert("Terms not accepted");
+    }
+  };
+
+  const handleSubscriptionClick = () => {
+    setSubscriptionSuccessful(true);
+    alert("Successfully subscribed!");
+  };
+
   return (
     <Container className="mt-5 p-5" style={{ backgroundColor: '#e0f7fa', borderRadius: '10px', maxWidth: '800px' }}>
       <div className="text-center mb-4">
-        <img src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg  " alt="Logo" style={{ width: '80px', borderRadius: '50%' }} />
+        <img src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg" alt="Logo" style={{ width: '80px', borderRadius: '50%' }} />
       </div>
       <h3 className="text-center">Personal Information</h3>
       {error && <Alert variant="danger">{error}</Alert>}
@@ -297,21 +316,26 @@ const Register = () => {
           </Col>
         </Row>
 
-        <Button variant="secondary" type="button" className="mt-4 w-100">
-          Newsletter Subscription
+        <Button variant="secondary" type="button" className="mt-4 w-100" onClick={handleNewsletterClick}>
+          {newsletterSubscribed ? '✓ Newsletter Subscribed' : 'Subscribe to Newsletter'}
         </Button>
         <div className="d-flex justify-content-between mt-3">
-          <Button variant="info" type="button">
-            Accept terms
+          <Button variant="info" type="button" onClick={handleTermsClick}>
+            {termsAccepted ? '✓ Terms Accepted' : 'Accept Terms'}
           </Button>
-          <Button variant="warning" type="button">
-            Subscription
+          <Button variant="warning" type="button" onClick={handleSubscriptionClick}>
+            Subscribe
           </Button>
         </div>
         <Button variant="success" type="submit" className="mt-4 w-100">
           Register
         </Button>
       </Form>
+      {subscriptionSuccessful && (
+        <div style={{ marginTop: '20px', color: 'green' }}>
+          Subscription successful! Thank you for subscribing.
+        </div>
+      )}
     </Container>
   );
 };
