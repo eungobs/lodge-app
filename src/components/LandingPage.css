@@ -11,12 +11,20 @@
 
 .header-buttons {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .header-buttons .btn {
-  margin-bottom: 10px; /* Add space between buttons */
+  margin-left: 10px; /* Add space between buttons */
+  background-color: #808080; /* Set color to grey */
+  color: white;
+  border: none;
+}
+
+.header-buttons .btn:hover {
+  background-color: #696969; /* Darker grey on hover */
 }
 
 .logo {
@@ -26,29 +34,38 @@
   margin: 20px 0;
 }
 
-.buttons {
-  margin-top: 20px;
-}
-
-.register-btn,
-.login-btn {
-  display: block;
-  width: 80px;
-  margin-bottom: 10px;
-}
-
 .lodge-title {
   font-size: 48px;
   font-weight: bold;
   color: #556b2f;
   margin-top: 20px;
+  font-style: italic;
+  background: linear-gradient(to right, #ff7f50, #ff6347);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Main Image */
 .main-image {
   border: 2px solid #000;
-  width: 100%;
-  margin-top: 20px;
+  width: 70%; /* Adjust the width to make it smaller */
+  height: auto; /* Maintain aspect ratio */
+  margin: 20px auto;
+  display: block;
+}
+
+/* Blinking Text */
+.blinking-text {
+  animation: blinker 1.5s linear infinite;
+  font-size: 22px;
+  color: #ff4500;
+  font-weight: bold;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
 
 /* Events and Offers Section */
@@ -57,10 +74,7 @@
   padding: 10px;
   border-radius: 10px;
   margin: 10px 0;
-}
-
-.events h4, .offers h4 {
-  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
   color: #8b4513;
 }
 
@@ -70,7 +84,7 @@
 }
 
 .events ul li, .offers p {
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 10px;
 }
 
@@ -82,6 +96,7 @@
 .social-icons i {
   font-size: 24px;
   margin-right: 15px;
+  cursor: pointer;
 }
 
 .social-icons .fab {
@@ -91,32 +106,9 @@
 .text-right i {
   font-size: 20px;
   margin-left: 20px;
+  cursor: pointer;
 }
 
-/* Footer Icons */
-.social-icons i, 
-.text-right i {
-  font-size: 24px;
-  margin-right: 15px;
-  color: #000; /* Set the color of the icons */
-}
 
-.social-icons .fab {
-  margin-right: 10px;
-}
 
-.text-right i {
-  margin-left: 20px;
-}
-
-/* Additional CSS for About Button */
-.about-btn {
-  margin-left: 10px;
-  background-color: #4CAF50; /* Customize the color */
-  color: white;
-}
-
-.about-btn:hover {
-  background-color: #45a049; /* Customize the hover color */
-}
 

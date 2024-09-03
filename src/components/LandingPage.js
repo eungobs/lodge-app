@@ -8,21 +8,21 @@ const LandingPage = () => {
     <div className="container-fluid landing-page">
       {/* Header Section */}
       <header className="row">
+        <div className="col-12">
+          <div className="header-buttons">
+            <Link to="/register" className="btn header-btn">Register</Link>
+            <Link to="/login" className="btn header-btn">Login</Link>
+            <Link to="/about" className="btn header-btn">About</Link>
+            <Link to="/accommodations" className="btn header-btn">Accommodation</Link>
+            <Link to="/gallery" className="btn header-btn">Gallery</Link>
+            <Link to="/profile" className="btn header-btn">My Profile</Link>
+          </div>
+        </div>
         <div className="col-3">
           <img src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg" alt="Logo" className="logo" />
-          <div className="buttons">
-            <Link to="/register" className="btn btn-primary register-btn">Register</Link>
-            <Link to="/login" className="btn btn-primary login-btn">Login</Link>
-            <Link to="/about" className="btn btn-primary about-btn">About</Link>
-          </div>
         </div>
         <div className="col-6 text-center">
           <h1 className="lodge-title">Sunset Heaven Lodge</h1>
-        </div>
-        <div className="col-3 text-right">
-          <Link to="/profile" className="btn btn-secondary">My-Profile</Link>
-          <Link to="/accommodations" className="btn btn-secondary">Accommodation</Link>
-          <Link to="/gallery" className="btn btn-secondary">Gallery</Link>
         </div>
       </header>
 
@@ -33,14 +33,14 @@ const LandingPage = () => {
         </div>
         <div className="col-3">
           <div className="events">
-            <h4>Upcoming Events</h4>
+            <h4 className="blinking-text">Upcoming Events</h4>
             <ul>
               <li>Summer Musical Festival (September 14th)</li>
               <li>Family Fun Day (September 28th)</li>
             </ul>
           </div>
           <div className="offers">
-            <h4>Special Offers</h4>
+            <h4 className="blinking-text">Special Offers</h4>
             <p>Book 3 nights, get 1 Free!</p>
             <p>20% off Boat Cruise for early bookings!</p>
           </div>
@@ -67,3 +67,7 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+
+
+
