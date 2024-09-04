@@ -1,5 +1,4 @@
 /* src/styles/BookNow.css */
-
 .book-now-container {
   max-width: 600px;
   margin: 0 auto;
@@ -19,4 +18,9 @@
 .book-now-container .btn-primary {
   width: 100%;
 }
+
+.book-now-container .btn-secondary {
+  margin-top: 10px;
+}
+
 

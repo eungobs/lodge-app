@@ -1,14 +1,14 @@
 // src/components/BookNow.js
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Col, Row, InputGroup, FormControl } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const BookNow = ({ handleBooking }) => {
-  const { id } = useParams(); // Get the ID from the URL
-  const navigate = useNavigate(); // Initialize navigate hook
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [accommodation, setAccommodation] = useState(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,14 +16,14 @@ const BookNow = ({ handleBooking }) => {
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
   const [message, setMessage] = useState('');
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
+  const [childrenAges, setChildrenAges] = useState([]);
 
-  const pricePerNight = 150; // Define the price per night here
+  const pricePerNight = 150;
 
   useEffect(() => {
-    // Fetch accommodation details based on the ID
     const fetchAccommodation = async () => {
-      // Simulate fetching accommodation data
-      // Replace with actual API call or data fetch
       const fetchedAccommodation = { id, name: 'Sample Accommodation' }; // Dummy data
       setAccommodation(fetchedAccommodation);
     };
@@ -34,8 +34,8 @@ const BookNow = ({ handleBooking }) => {
   useEffect(() => {
     if (checkInDate && checkOutDate) {
       const diffTime = Math.abs(checkOutDate - checkInDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Calculate the number of days
-      setTotalAmount(diffDays * pricePerNight); // Calculate the total amount
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      setTotalAmount(diffDays * pricePerNight);
     } else {
       setTotalAmount(0);
     }
@@ -56,12 +56,23 @@ const BookNow = ({ handleBooking }) => {
       checkInDate,
       checkOutDate,
       totalAmount,
+      adults,
+      children,
+      childrenAges
     };
 
     handleBooking(bookingDetails);
-
-    // Navigate to payment page with the booking details
     navigate('/payment', { state: { bookingDetails } });
+  };
+
+  const handleAddChildren = () => {
+    setChildrenAges([...childrenAges, '']);
+  };
+
+  const handleAgeChange = (index, value) => {
+    const updatedAges = [...childrenAges];
+    updatedAges[index] = value;
+    setChildrenAges(updatedAges);
   };
 
   return (
@@ -115,6 +126,48 @@ const BookNow = ({ handleBooking }) => {
               minDate={checkInDate}
             />
           </Form.Group>
+
+          <Form.Group controlId="formAdults">
+            <Form.Label>Number of Adults</Form.Label>
+            <Form.Control
+              type="number"
+              min="1"
+              value={adults}
+              onChange={(e) => setAdults(Number(e.target.value))}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formChildren">
+            <Form.Label>Number of Children</Form.Label>
+            <Form.Control
+              type="number"
+              min="0"
+              value={children}
+              onChange={(e) => setChildren(Number(e.target.value))}
+              required
+            />
+          </Form.Group>
+
+          {children > 0 && (
+            <div>
+              <h5>Children's Ages</h5>
+              {childrenAges.map((age, index) => (
+                <InputGroup className="mb-2" key={index}>
+                  <FormControl
+                    type="number"
+                    placeholder={`Age of child ${index + 1}`}
+                    value={age}
+                    onChange={(e) => handleAgeChange(index, e.target.value)}
+                    required
+                  />
+                </InputGroup>
+              ))}
+              <Button variant="secondary" onClick={handleAddChildren}>
+                Add Another Child
+              </Button>
+            </div>
+          )}
 
           <div className="mt-3">
             <strong>Total Amount: ${totalAmount}</strong>
