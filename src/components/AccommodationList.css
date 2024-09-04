@@ -1,113 +1,56 @@
 /* AccommodationList.css */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.carousel-container {
+  position: relative;
+  width: 100%;
 }
 
-/* Container styling */
-.container {
-  max-width: 1640px; /* Set max width for the container */
-  margin: 0 auto; /* Center the container */
-  padding: 20px; /* Padding around the container */
-}
-
-/* Title styling */
-h2 {
-  font-size: 2.5rem; /* Font size for the title */
-  margin-bottom: 20px; /* Space below the title */
-  text-align: center; /* Center align the title */
-}
-
-/* Card styling */
-.card {
-  border: 2px solid #000; /* Bold black border around cards */
-  border-radius: 8px; /* Rounded corners for cards */
-  overflow: hidden; /* Ensure content fits within the card */
-  transition: transform 0.2s; /* Smooth transition for hover effect */
-}
-
-/* Hover effect for cards */
-.card:hover {
-  transform: scale(1.05); /* Slightly scale up on hover */
-}
-
-/* Main image styling */
-.main-image,
-.gallery-image {
-  width: 100%; /* Full width for images */
-  height: 300px; /* Fixed height for square shape */
+.main-image {
+  width: 100%; /* Fill the entire width */
+  height: 200px; /* Fixed height for square shape */
   object-fit: cover; /* Maintain aspect ratio */
 }
 
-/* Gallery container styling */
 .gallery-container {
-  position: relative; /* Positioning for close button */
+  position: relative; /* For positioning the close button */
 }
 
-/* Close button styling */
 .close-gallery-button {
-  position: absolute; /* Absolute positioning */
-  top: 10px; /* Position the button at the top right */
-  right: 10px; /* Position the button at the right */
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-/* Gallery images styling */
 .gallery-images {
-  display: flex; /* Flexbox for image alignment */
-  flex-wrap: wrap; /* Wrap images to the next line */
-  justify-content: center; /* Center align images */
-  margin-top: 10px; /* Space above gallery images */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centering the gallery images */
+  margin-top: 10px;
 }
 
-/* Individual gallery image styling */
 .gallery-image {
-  width: 100px; /* Fixed width for gallery images */
+  width: 100px; /* Fixed width for square gallery images */
   height: 100px; /* Fixed height for square shape */
   margin: 5px; /* Space around each image */
-  border: 2px solid #000; /* Bold black border around gallery images */
-  border-radius: 4px; /* Rounded corners for images */
+  border: 2px solid #007bff; /* Blue border around gallery images */
+  border-radius: 0; /* Square corners */
+  object-fit: cover; /* Maintain aspect ratio */
+  transition: transform 0.2s; /* Smooth transition */
 }
 
-/* Responsive adjustments */
+.gallery-image:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
-  .gallery-image {
-    width: 80px; /* Smaller width on tablets */
-    height: 80px; /* Smaller height on tablets */
-  }
-
   .main-image {
-    height: 200px; /* Smaller height for main image on tablets */
+    height: 150px; /* Adjust height on smaller screens */
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
   .gallery-image {
-    width: 60px; /* Smaller width on mobile */
-    height: 60px; /* Smaller height on mobile */
-  }
-
-  h2 {
-    font-size: 2rem; /* Smaller title font size for mobile */
+    width: 80px; /* Smaller width on mobile */
+    height: 80px; /* Smaller height on mobile */
   }
 }
-
-/* Button styling */
-.view-more-button,
-.close-gallery-button,
-.mt-3 {
-  color: #007bff; /* Bootstrap primary color */
-  text-decoration: underline; /* Underline for clarity */
-}
-
-/* Card body text styling */
-.card-body {
-  padding: 20px; /* Padding inside card body */
-}
-
-/* Checkbox label styling */
-.form-check {
-  margin-top: 10px; /* Space above checkbox */
-}
-
-

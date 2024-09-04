@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useNavigate } from 'react-router-dom';
+import './AccommodationList.css'; // Make sure to include your CSS file
 
 const AccommodationList = ({ accommodations }) => {
   const [showAllImages, setShowAllImages] = useState(null);
