@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
 
 const LandingPage = () => {
+  const [clickedImage, setClickedImage] = useState(null);
+
+  const handleImageClick = (imageIndex) => {
+    setClickedImage(imageIndex);
+  };
+
   return (
     <div className="container-fluid landing-page">
       {/* Header Section */}
       <header className="row align-items-center">
         <div className="col-6 text-left">
-          <img src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg" alt="Logo" className="logo" />
+          <img
+            src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg"
+            alt="Sunset Heaven Lodge logo"
+            className="logo"
+          />
         </div>
         <div className="col-6 text-right header-buttons">
           <Link to="/register" className="btn btn-secondary">Register</Link>
@@ -27,7 +37,32 @@ const LandingPage = () => {
       <section className="row">
         <div className="col-12">
           <div className="main-image-container">
-            <img src="https://i.pinimg.com/564x/3e/a7/bf/3ea7bfd8b4de66887413d3457b826f31.jpg" alt="Lodge" className="main-image img-fluid" />
+            <div className="row">
+              <div className="col-md-4">
+                <img
+                  src="https://i.pinimg.com/564x/3e/a7/bf/3ea7bfd8b4de66887413d3457b826f31.jpg"
+                  alt="Hotel exterior with pool at sunset"
+                  className={`main-image img-fluid ${clickedImage === 1 ? 'clicked' : ''}`}
+                  onClick={() => handleImageClick(1)}
+                />
+              </div>
+              <div className="col-md-4">
+                <img
+                  src="https://i.pinimg.com/564x/bf/8c/d5/bf8cd5a43bc750c38b46fd5522bbf43e.jpg"
+                  alt="Modern hotel lobby with seating area"
+                  className={`main-image img-fluid ${clickedImage === 2 ? 'clicked' : ''}`}
+                  onClick={() => handleImageClick(2)}
+                />
+              </div>
+              <div className="col-md-4">
+                <img
+                  src="https://i.pinimg.com/564x/8b/74/70/8b7470a891a8aae1c13e725ed37e617c.jpg"
+                  alt="Cozy hotel room with ocean view"
+                  className={`main-image img-fluid ${clickedImage === 3 ? 'clicked' : ''}`}
+                  onClick={() => handleImageClick(3)}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -52,28 +87,48 @@ const LandingPage = () => {
       <section className="row small-images-section">
         <div className="col-3">
           <div className="small-image">
-            <img src="https://i.pinimg.com/564x/ad/6b/a7/ad6ba7bf5446d0acbc39adb41cbc94c9.jpg" alt="Room for 2 Adults" />
+            <img
+              src="https://i.pinimg.com/564x/ad/6b/a7/ad6ba7bf5446d0acbc39adb41cbc94c9.jpg"
+              alt="Room for 2 Adults"
+              className={`img-fluid ${clickedImage === 4 ? 'clicked' : ''}`}
+              onClick={() => handleImageClick(4)}
+            />
             <p className="room-details">2 Adults | Breakfast & Dinner</p>
             <p className="price"><span className="crushed-price">ZA1200</span> ZA950</p>
           </div>
         </div>
         <div className="col-3">
           <div className="small-image">
-            <img src="https://i.pinimg.com/564x/72/c9/21/72c921591058bba1215c367dc0d91708.jpg" alt="Group Room" />
+            <img
+              src="https://i.pinimg.com/564x/72/c9/21/72c921591058bba1215c367dc0d91708.jpg"
+              alt="Group Room"
+              className={`img-fluid ${clickedImage === 5 ? 'clicked' : ''}`}
+              onClick={() => handleImageClick(5)}
+            />
             <p className="room-details">Group (School/Church) | Breakfast & Dinner</p>
             <p className="price"><span className="crushed-price">ZA1950</span> ZA1450</p>
           </div>
         </div>
         <div className="col-3">
           <div className="small-image">
-            <img src="https://i.pinimg.com/564x/d0/55/c6/d055c6192dfc58a5fbfef88f4394d5f1.jpg" alt="Room for Family" />
+            <img
+              src="https://i.pinimg.com/564x/d0/55/c6/d055c6192dfc58a5fbfef88f4394d5f1.jpg"
+              alt="Room for Family"
+              className={`img-fluid ${clickedImage === 6 ? 'clicked' : ''}`}
+              onClick={() => handleImageClick(6)}
+            />
             <p className="room-details">2 Adults & 2 Kids | Breakfast & Dinner</p>
             <p className="price"><span className="crushed-price">ZA1100</span> ZA750</p>
           </div>
         </div>
         <div className="col-3">
           <div className="small-image">
-            <img src="https://i.pinimg.com/564x/88/5b/95/885b9565e63b8071b0d403a16f47ac4a.jpg" alt="Shared Room" />
+            <img
+              src="https://i.pinimg.com/564x/88/5b/95/885b9565e63b8071b0d403a16f47ac4a.jpg"
+              alt="Shared Room"
+              className={`img-fluid ${clickedImage === 7 ? 'clicked' : ''}`}
+              onClick={() => handleImageClick(7)}
+            />
             <p className="room-details">Sharing (4 People) | Breakfast & Dinner</p>
             <p className="price"><span className="crushed-price">ZA1400</span> ZA920</p>
           </div>
@@ -96,7 +151,7 @@ const LandingPage = () => {
         </div>
         <div className="col-3 text-right">
           <a href="mailto:sunsetlodge@gmail.com"><i className="fas fa-envelope"></i> sunsetlodge@gmail.com</a>
-          <a href="tel:0110403322"><i className="fas fa-phone"></i> 011-040-3322</a>
+          <a href="tel:0110403322"><i className="fas fa-phone"></i> 011 040 3322</a>
         </div>
       </footer>
     </div>
@@ -104,12 +159,6 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-
-
-
-
-
 
 
 
