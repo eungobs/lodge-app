@@ -1,4 +1,3 @@
-/* AccommodationList.css */
 .carousel-container {
   position: relative;
   width: 100%;
@@ -6,8 +5,9 @@
 
 .main-image {
   width: 100%; /* Fill the entire width */
-  height: 200px; /* Fixed height for square shape */
+  height: 200px; /* Fixed height */
   object-fit: cover; /* Maintain aspect ratio */
+  cursor: pointer; /* Show pointer cursor on hover */
 }
 
 .gallery-container {
@@ -29,29 +29,105 @@
 
 .gallery-image {
   width: 100px; /* Fixed width for square gallery images */
-  height: 100px; /* Fixed height for square shape */
+  height: 100px; /* Fixed height */
   margin: 5px; /* Space around each image */
   border: 2px solid #007bff; /* Blue border around gallery images */
   border-radius: 0; /* Square corners */
   object-fit: cover; /* Maintain aspect ratio */
   transition: transform 0.2s; /* Smooth transition */
+  cursor: pointer; /* Show pointer cursor on hover */
 }
 
 .gallery-image:hover {
   transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
+.amenities-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.amenity-item svg {
+  margin-right: 8px; /* Spacing between icon and label */
+}
+
+.modal-image {
+  width: 100%; /* Full width for modal image */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* Share Button Styles */
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  background-color: #25D366; /* WhatsApp green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.share-button:hover {
+  background-color: #1ebe57; /* Darker green on hover */
+}
+
+.share-button svg {
+  margin-right: 8px; /* Spacing between icon and text */
+}
+
 /* Responsive styles */
+
+/* Large desktops (1200px and above) */
+@media (min-width: 1200px) {
+  .main-image {
+    height: 300px; /* Larger height for bigger screens */
+  }
+
+  .gallery-image {
+    width: 150px; /* Larger square images on bigger screens */
+    height: 150px;
+  }
+}
+
+/* Tablets and below (max-width: 768px) */
 @media (max-width: 768px) {
   .main-image {
     height: 150px; /* Adjust height on smaller screens */
   }
-}
 
-@media (max-width: 576px) {
   .gallery-image {
-    width: 80px; /* Smaller width on mobile */
-    height: 80px; /* Smaller height on mobile */
+    width: 100px;
+    height: 100px;
   }
 }
 
+/* Small phones (max-width: 576px) */
+@media (max-width: 576px) {
+  .gallery-image {
+    width: 80px; /* Smaller square images on small phones */
+    height: 80px;
+  }
+}
+
+/* Extra small phones (max-width: 360px) */
+@media (max-width: 360px) {
+  .main-image {
+    height: 120px; /* Reduce height for very small screens */
+  }
+
+  .gallery-image {
+    width: 70px; /* Even smaller square images */
+    height: 70px;
+  }
+}
