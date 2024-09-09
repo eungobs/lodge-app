@@ -1,14 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
+import { storage } from '../firebaseConfig'; // Import storage from firebaseConfig
+import { ref, listAll, getDownloadURL } from 'firebase/storage'; // Import required functions
 import './LandingPage.css';
 
 const LandingPage = () => {
   const [clickedImage, setClickedImage] = useState(null);
+  const [smallImageUrls, setSmallImageUrls] = useState([]);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const storageRef = ref(storage, 'gallery/landingpage/'); // Reference to the folder in Firebase Storage
+        const imageRefs = await listAll(storageRef);
+        const urls = await Promise.all(
+          imageRefs.items.map(async (imageRef) => {
+            const url = await getDownloadURL(imageRef);
+            return url;
+          })
+        );
+        setSmallImageUrls(urls);
+      } catch (error) {
+        console.error('Error fetching small images from Firebase Storage:', error);
+        setSmallImageUrls([]); // Ensure to handle the empty state gracefully
+      }
+    };
+
+    loadImages();
+  }, []);
 
   const handleImageClick = (imageIndex) => {
     setClickedImage(imageIndex);
   };
+
+  // Room details and prices
+  const roomDetails = [
+    { details: '2 Adults | Breakfast & Dinner', price: 'ZA950', originalPrice: 'ZA1200' },
+    { details: 'Group (School/Church) | Breakfast & Dinner', price: 'ZA1450', originalPrice: 'ZA1950' },
+    { details: '2 Adults & 2 Kids | Breakfast & Dinner', price: 'ZA750', originalPrice: 'ZA1100' },
+    { details: 'Sharing (4 People) | Breakfast & Dinner', price: 'ZA920', originalPrice: 'ZA1400' }
+  ];
 
   return (
     <div className="container-fluid landing-page">
@@ -85,54 +117,27 @@ const LandingPage = () => {
 
       {/* Small Images Section */}
       <section className="row small-images-section">
-        <div className="col-3">
-          <div className="small-image">
-            <img
-              src="https://i.pinimg.com/564x/ad/6b/a7/ad6ba7bf5446d0acbc39adb41cbc94c9.jpg"
-              alt="Room for 2 Adults"
-              className={`img-fluid ${clickedImage === 4 ? 'clicked' : ''}`}
-              onClick={() => handleImageClick(4)}
-            />
-            <p className="room-details">2 Adults | Breakfast & Dinner</p>
-            <p className="price"><span className="crushed-price">ZA1200</span> ZA950</p>
-          </div>
-        </div>
-        <div className="col-3">
-          <div className="small-image">
-            <img
-              src="https://i.pinimg.com/564x/72/c9/21/72c921591058bba1215c367dc0d91708.jpg"
-              alt="Group Room"
-              className={`img-fluid ${clickedImage === 5 ? 'clicked' : ''}`}
-              onClick={() => handleImageClick(5)}
-            />
-            <p className="room-details">Group (School/Church) | Breakfast & Dinner</p>
-            <p className="price"><span className="crushed-price">ZA1950</span> ZA1450</p>
-          </div>
-        </div>
-        <div className="col-3">
-          <div className="small-image">
-            <img
-              src="https://i.pinimg.com/564x/d0/55/c6/d055c6192dfc58a5fbfef88f4394d5f1.jpg"
-              alt="Room for Family"
-              className={`img-fluid ${clickedImage === 6 ? 'clicked' : ''}`}
-              onClick={() => handleImageClick(6)}
-            />
-            <p className="room-details">2 Adults & 2 Kids | Breakfast & Dinner</p>
-            <p className="price"><span className="crushed-price">ZA1100</span> ZA750</p>
-          </div>
-        </div>
-        <div className="col-3">
-          <div className="small-image">
-            <img
-              src="https://i.pinimg.com/564x/88/5b/95/885b9565e63b8071b0d403a16f47ac4a.jpg"
-              alt="Shared Room"
-              className={`img-fluid ${clickedImage === 7 ? 'clicked' : ''}`}
-              onClick={() => handleImageClick(7)}
-            />
-            <p className="room-details">Sharing (4 People) | Breakfast & Dinner</p>
-            <p className="price"><span className="crushed-price">ZA1400</span> ZA920</p>
-          </div>
-        </div>
+        {smallImageUrls.length > 0 ? (
+          smallImageUrls.map((url, index) => (
+            <div key={index} className="col-3">
+              <div className="small-image">
+                <img
+                  src={url}
+                  alt={`Room detail ${index + 1}`}
+                  className={`img-fluid ${clickedImage === index + 4 ? 'clicked' : ''}`}
+                  onClick={() => handleImageClick(index + 4)}
+                />
+                <p className="room-details">{roomDetails[index]?.details || 'No details available'}</p>
+                <p className="price">
+                  <span className="crushed-price">{roomDetails[index]?.originalPrice || 'ZA0'}</span> 
+                  {roomDetails[index]?.price || 'ZA0'}
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="col-12 text-center">No images available</div>
+        )}
       </section>
 
       {/* Footer Section */}
@@ -159,4 +164,6 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
- 
+
+
+

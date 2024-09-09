@@ -26,7 +26,7 @@ const accommodations = [
     ],
     name: 'Superior Room',
     description: 'A room with enhanced amenities and comfort.',
-    price: 180,
+    price: 750,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
     amenities: [
@@ -57,7 +57,7 @@ const accommodations = [
     ],
     name: 'Superior Room',
     description: 'A room with enhanced amenities and comfort.',
-    price: 180,
+    price: 780,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
     amenities: [
@@ -119,7 +119,7 @@ const accommodations = [
     ],
      name: 'Superior Room',
     description: 'A room with enhanced amenities and comfort.',
-    price: 180,
+    price: 780,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
     amenities: [
@@ -150,7 +150,7 @@ const accommodations = [
     ],
      name: 'Standard Room',
     description: 'A comfortable room with essential amenities.',
-    price: 100,
+    price: 1000,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: false,
     amenities: [
@@ -174,7 +174,7 @@ const accommodations = [
     ],
      name: 'Deluxe Room',
     description: 'A spacious room with a beautiful view.',
-    price: 150,
+    price: 750,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
     amenities: [
@@ -205,7 +205,7 @@ const accommodations = [
     ],
     name: 'Deluxe Room',
     description: 'A spacious room with a beautiful view.',
-    price: 980,
+    price: 650,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
     amenities: [
@@ -236,7 +236,7 @@ const accommodations = [
     ],
     name: 'Superior Room',
     description: 'A room with enhanced amenities and comfort.',
-    price: 180,
+    price: 650,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
     amenities: [
@@ -267,7 +267,7 @@ const accommodations = [
     ],
     name: 'Standard Room',
     description: 'A comfortable room with essential amenities.',
-    price: 100,
+    price: 900,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: false,
     amenities: [
@@ -291,7 +291,7 @@ const accommodations = [
     ],
     name: 'Standard Room',
     description: 'A comfortable room with essential amenities.',
-    price: 100,
+    price:  700,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: false,
     amenities: [
@@ -315,7 +315,7 @@ const accommodations = [
     ],
     name: 'Standard Room',
     description: 'A comfortable room with essential amenities.',
-    price: 100,
+    price: 950,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: false,
     amenities: [
@@ -363,7 +363,7 @@ const accommodations = [
     ],
     name: 'Superior Room',
     description: 'A room with enhanced amenities and comfort.',
-    price: 180,
+    price: 1180,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
     amenities: [
@@ -425,7 +425,7 @@ const accommodations = [
     ],
     name: 'Superior Room',
     description: 'A room with enhanced amenities and comfort.',
-    price: 180,
+    price: 1080,
     breakfastIncluded: true,
     breakfastAndDinnerIncluded: true,
     amenities: [

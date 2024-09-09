@@ -1,7 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './About.css'; // Import the CSS file for styling
+import { db } from '../firebaseConfig'; // Adjust the path to where firebaseConfig.js is actually located
+import { collection, getDocs } from 'firebase/firestore';
 
 const About = () => {
+  const [policies, setPolicies] = useState([]);
+
+  // Hardcoded policies to be displayed on the About page
+  const predefinedPolicies = [
+    'Check-in & Check-out: Check-in time is 2:00 PM, and check-out is 11:00 AM. Late check-out may incur additional charges.',
+    'Pets: No pets are allowed on the property unless otherwise arranged with management.',
+    'Noise: Please maintain a peaceful environment by keeping noise levels to a minimum, especially after 10:00 PM.',
+    'Smoking: Smoking is only permitted in designated outdoor areas. Smoking inside rooms or facilities will result in a cleaning fee.',
+    'Parking: Vehicles should be parked in the designated parking areas. The lodge is not responsible for any theft or damage to vehicles.',
+    'Pool Area: Children must be supervised at all times in the pool area. No diving is allowed in the shallow sections of the pool.',
+    'Dam Boat Tours: Boat tours are subject to weather conditions and availability. Please book your spot at the front desk.',
+    'Cancellation Policy: Reservations must be canceled 48 hours before the scheduled check-in date to avoid a one-night cancellation fee.',
+    'Guest Safety: The lodge is equipped with surveillance cameras for your safety. We are not responsible for lost or stolen items.',
+    'Event Space: Events held in the lodge or outdoor areas must conclude by 10:00 PM unless prior arrangements are made.'
+  ];
+
+  // Fetch policies from Firebase on component mount
+  useEffect(() => {
+    const fetchPolicies = async () => {
+      const policiesCollection = collection(db, 'policies');
+      const policySnapshot = await getDocs(policiesCollection);
+      const policyList = policySnapshot.docs.map(doc => doc.data());
+      setPolicies(policyList);
+    };
+
+    fetchPolicies();
+  }, []);
+
+  // Navigation function
+  const handleBackButtonClick = () => {
+    window.location.href = '/'; // Redirects to the home page
+  };
+
   return (
     <div className="container">
       <h2>About Sunset Heaven Lodge</h2>
@@ -68,13 +103,27 @@ const About = () => {
       <p>
         For more information, please call us at <strong>011-040-3322</strong> or WhatsApp us at <strong>060-333-2233</strong>.
       </p>
+
+      {/* Policies Section */}
+      <h3>Lodge Policies</h3>
+      <ul>
+        {/* Display predefined policies */}
+        {predefinedPolicies.map((policy, index) => (
+          <li key={index}>{policy}</li>
+        ))}
+
+        {/* Display policies fetched from Firebase */}
+        {policies.map((policy, index) => (
+          <li key={index}>{policy.content}</li>
+        ))}
+      </ul>
+
+      {/* Back Button */}
+      <button className="back-button" onClick={handleBackButtonClick}>
+        Back to Home
+      </button>
     </div>
   );
 };
 
 export default About;
-
-
-
-
-
