@@ -1,70 +1,104 @@
-# Getting Started with Create React App
+Sunset Heaven Lodge
+Overview
+Sunset Heaven Lodge is a comprehensive hotel management application designed to enhance the booking experience for users and streamline operations for administrators. The application provides robust features for user authentication, accommodation management, and booking, all with a focus on intuitive design and usability.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Features
+User Authentication
+Firebase Authentication: Secure registration and login functionality.
+User Registration: New users can register to gain full access to all app features.
+User Profile Management: Post-registration, users can edit their profile details and delete their accounts.
+Navigation and Functionality
+Initial Registration: Upon opening the Sunset Heaven Lodge app, users will first encounter options to register.
+Register: Users must register to access full functionality including booking and payment.
+Profile Navigation: After registering, users are directed to their profile where they can:
+Edit profile details.
+Delete their account if desired.
+Access Restrictions: Users who are not registered can only view accommodation images and details. They will not have access to booking or payment features.
+Accommodation Listings
+Photo Gallery: Browse images of the hotel.
+Map Integration: View the hotel’s location on an interactive map.
+Price Details: Check the cost per night and other pricing information.
+Basic Information: Review essential details including address and star rating.
+Hotel Facilities & Policies: See a list of amenities and policies.
+Call-to-Action Button: Book or view more details about the accommodation.
+Sharing Button: Share details of accommodations with others.
+Favourites Button: Save accommodations to a favourites list.
+Booking Functionality
+Date Selection: Choose check-in and check-out dates.
+Room and Guest Details: Specify number of rooms and guests.
+Payment Integration: Process payments securely through a chosen payment gateway.
+User Profile
+View/Edit Profile: Manage personal profile information.
+View Bookings: Access details of past and upcoming bookings.
+View Favourites: Review and manage saved favourite accommodations.
+Admin Panel
+Admin Authentication: Admins log in to access the CMS.
+CMS Login Credentials:
+Email: eungo@gmail.com
+Password: 123456
+Add Accommodations: Admins can add new accommodations with details such as room type, capacity, price, and availability.
+View Reservations: Admins can view reservation details including guest and room information.
+Manage Reservations: Approve, modify, or cancel bookings.
+Update Accommodation Details: Adjust availability, pricing, and descriptions.
+Data Storage
+Firebase Firestore/Real-time Database: Securely store accommodation listings, user data, and booking information.
+State Management
+Redux Toolkit: Efficiently manage the application's state.
+Additional Features
+Search Functionality: Find accommodations by location, price, and other filters.
+Reviews & Ratings: Leave and view reviews and ratings.
+Notifications: Receive alerts for booking confirmations, updates, and promotions.
+Security
+Data Protection: Implement security measures to protect user data and transactions.
+Scalability & Performance
+Scalable Architecture: Designed to handle extensive user and accommodation data.
+Optimized Performance: Ensures a smooth and responsive user experience.
+Compliance
+Regulations and Laws: Adheres to relevant data protection and transaction regulations.
+Responsive Design
+Cross-Device Compatibility: The application is designed to work on various devices and screen sizes.
+Technology Stack
+Frontend: React.js
+Backend: Firebase Firestore/Real-time Database
+State Management: Redux Toolkit
+Authentication: Firebase Authentication
+Payments: [Payment Gateway of Choice]
+UI/UX Design: Designed using Figma
+Coding Environment: Visual Studio Code
+Testing
+For testing the payment functionality, you can use the following test card details:
 
-## Available Scripts
+Card Type: VISA
+Card Number: 4032 0385 4201 3317
+Expiry Date: 09/2029
+CVC Code: Any 3-digit code
+Repository
+GitHub Repository: Sunset Heaven Lodge GitHub
+CMS Branch: ldge-admin for the content management system
+Setup and Installation
+Clone the Repository
 
-In the project directory, you can run:
 
-### `npm start`
+git clone https://github.com/yourusername/sunset-heaven-lodge.git
+cd sunset-heaven-lodge
+Install Dependencies
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+npm install
+Set Up Firebase
 
-### `npm test`
+Create a Firebase project and configure Firebase Authentication and Firestore.
+Add your Firebase configuration to the app.
+Run the Application
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+npm start
+Build for Production
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+npm run build
+Contributing
+Contributions are welcome! Please follow the standard pull request process and ensure that your changes are well-documented. For detailed guidelines, refer to the CONTRIBUTING.md file.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
