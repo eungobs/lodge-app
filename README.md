@@ -100,5 +100,7 @@ npm run build
 Contributing
 Contributions are welcome! Please follow the standard pull request process and ensure that your changes are well-documented. For detailed guidelines, refer to the CONTRIBUTING.md file.
 
+Figma link:https://www.figma.com/design/F8cn3hGq5zNWooIwWXMB67/lodge-sckeches?node-id=54-126&t=b1DDil8UNUvNWFai-1
+
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
