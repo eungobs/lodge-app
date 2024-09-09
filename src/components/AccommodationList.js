@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { Container, Row, Col, Card, Button, Form, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useNavigate } from 'react-router-dom';
-import { FaShareAlt, FaStar } from 'react-icons/fa'; // Add icons for share and rating
+import { FaShareAlt, FaStar } from 'react-icons/fa'; // Icons for share and rating
+import { db } from '../firebaseConfig'; // Import Firestore instance
+import { doc, updateDoc } from 'firebase/firestore'; // Firestore functions for updating documents
 import './AccommodationList.css'; // Ensure you include your CSS file
 
 const AccommodationList = ({ accommodations }) => {
   const [showAllImages, setShowAllImages] = useState(null);
   const [showModal, setShowModal] = useState(null); // State for showing modal
   const [selectedImage, setSelectedImage] = useState(null); // State for full image modal
+  const [rating, setRating] = useState({}); // State for storing ratings
   const navigate = useNavigate();
 
   const handleViewMore = (id) => {
@@ -23,12 +26,27 @@ const AccommodationList = ({ accommodations }) => {
   };
 
   const handleBook = (id) => {
-    navigate(`/book/${id}`); // Pass the ID to the booking page
+    navigate(`/book/${id}`); // Navigate to the booking page with the selected accommodation ID
   };
 
   const handleShare = (imageUrl) => {
     const url = `https://api.whatsapp.com/send?text=Check%20out%20this%20accommodation:%20${encodeURIComponent(imageUrl)}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank'); // Open WhatsApp sharing link in a new tab
+  };
+
+  const handleShareEmail = (imageUrl) => {
+    const url = `mailto:?subject=Check%20out%20this%20accommodation&body=${encodeURIComponent(imageUrl)}`;
+    window.open(url, '_blank'); // Open the mail client with a prefilled email
+  };
+
+  const handleRate = async (id, newRating) => {
+    try {
+      const accommodationRef = doc(db, 'accommodations', id); // Reference to the specific accommodation document
+      await updateDoc(accommodationRef, { rating: newRating }); // Update the rating in Firestore
+      setRating(prev => ({ ...prev, [id]: newRating })); // Update local state
+    } catch (error) {
+      console.error("Error updating rating: ", error);
+    }
   };
 
   const handleImageClick = (image) => {
@@ -44,9 +62,14 @@ const AccommodationList = ({ accommodations }) => {
         ) : (
           accommodations.map((acc) => (
             <Col key={acc.id} md={4} className="mb-4">
-              <Card>
+              <Card className={acc.availability ? 'available-room' : 'not-available-room'}>
                 <div className="carousel-container">
-                  <img src={acc.images[0]} alt="Accommodation" className="main-image" onClick={() => handleImageClick(acc.images[0])} />
+                  <img
+                    src={acc.images[0]}
+                    alt="Accommodation"
+                    className="main-image"
+                    onClick={() => handleImageClick(acc.images[0])}
+                  />
                   <Button onClick={() => handleViewMore(acc.id)} variant="link" className="view-more-button">
                     View More
                   </Button>
@@ -98,6 +121,9 @@ const AccommodationList = ({ accommodations }) => {
               <Button className="share-button" onClick={() => handleShare(accommodations.find(acc => acc.id === showAllImages).images[0])}>
                 <FaShareAlt /> Share
               </Button>
+              <Button className="share-button" onClick={() => handleShareEmail(accommodations.find(acc => acc.id === showAllImages).images[0])}>
+                <FaShareAlt /> Share via Email
+              </Button>
               <div className="amenities-list">
                 <h5>Amenities</h5>
                 {accommodations.find(acc => acc.id === showAllImages).amenities.map((amenity, index) => (
@@ -107,7 +133,16 @@ const AccommodationList = ({ accommodations }) => {
                 ))}
                 <p><strong>Check-In:</strong> {accommodations.find(acc => acc.id === showAllImages).checkInTime}</p>
                 <p><strong>Check-Out:</strong> {accommodations.find(acc => acc.id === showAllImages).checkOutTime}</p>
-                <Button className="rate-us-button" variant="primary">Rate Us <FaStar /></Button>
+                <div className="rating-container">
+                  <h5>Rate Us</h5>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <FaStar
+                      key={star}
+                      className={`star ${rating[showAllImages] >= star ? 'filled' : ''}`}
+                      onClick={() => handleRate(showAllImages, star)}
+                    />
+                  ))}
+                </div>
               </div>
             </>
           )}
@@ -129,6 +164,3 @@ AccommodationList.propTypes = {
 };
 
 export default AccommodationList;
-
-
-

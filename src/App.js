@@ -46,6 +46,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 2,
@@ -76,6 +77,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 3,
@@ -106,6 +108,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 4,
@@ -136,6 +139,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 5,
@@ -159,6 +163,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
    id: 6,
@@ -189,6 +194,7 @@ const accommodations = [
       ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 7,
@@ -219,6 +225,7 @@ const accommodations = [
       ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 8,
@@ -249,6 +256,7 @@ const accommodations = [
       ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 9,
@@ -272,6 +280,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 10,
@@ -295,6 +304,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 11,
@@ -318,6 +328,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 12,
@@ -341,6 +352,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 13,
@@ -371,6 +383,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 14,
@@ -401,6 +414,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true // New field
   },
   {
     id: 15,
@@ -431,6 +445,7 @@ const accommodations = [
     ],
     checkInTime: '14:00',
     checkOutTime: '11:00',
+    availability: true
   },
   
 ];

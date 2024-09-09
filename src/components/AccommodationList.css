@@ -78,6 +78,40 @@
   margin-top: 10px;
 }
 
+/* AccommodationList.css */
+
+.available-room {
+  border: 2px solid green; /* Highlight border for available rooms */
+  position: relative;
+}
+
+.not-available-room {
+  border: 2px solid red; /* Highlight border for not available rooms */
+  position: relative;
+}
+
+.available-room::after {
+  content: 'Available';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: green;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.not-available-room::after {
+  content: 'Not Available';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
 .share-button:hover {
   background-color: #1ebe57; /* Darker green on hover */
 }
