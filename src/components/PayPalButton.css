@@ -1,0 +1,108 @@
+/* src/styles/PayPalButton.css */
+
+.paypal-button-container {
+  display: flex; /* Use flexbox to center */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin: 20px auto; /* Center the container with margin */
+  padding: 20px; /* Padding around the button */
+  max-width: 600px; /* Maximum width for the button container */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: #f9f9f9; /* Light background color */
+}
+
+/* Responsive styles */
+
+/* Large desktops (1200px and above) */
+@media (min-width: 1200px) {
+  .paypal-button-container {
+    max-width: 700px; /* Wider container on larger screens */
+    padding: 30px; /* More padding */
+  }
+}
+
+/* 1280px */
+@media (max-width: 1280px) {
+  .paypal-button-container {
+    padding: 25px; /* Adjust padding */
+  }
+}
+
+/* 1024px */
+@media (max-width: 1024px) {
+  .paypal-button-container {
+    max-width: 650px; /* Adjusted width */
+  }
+}
+
+/* Tablets and below (max-width: 768px) */
+@media (max-width: 768px) {
+  .paypal-button-container {
+    padding: 15px; /* Less padding on smaller screens */
+    max-width: 100%; /* Full width for smaller devices */
+  }
+}
+
+/* Small phones (max-width: 576px) */
+@media (max-width: 576px) {
+  .paypal-button-container {
+    padding: 10px; /* Less padding */
+  }
+}
+
+/* Extra small phones (max-width: 360px) */
+@media (max-width: 360px) {
+  .paypal-button-container {
+    padding: 5px; /* Minimal padding for very small screens */
+  }
+}
+
+/* 912px */
+@media (max-width: 912px) {
+  .paypal-button-container {
+    max-width: 90%; /* Adjust for smaller screens */
+  }
+}
+
+/* 853px */
+@media (max-width: 853px) {
+  .paypal-button-container {
+    padding: 8px; /* Slightly less padding */
+  }
+}
+
+/* 540px */
+@media (max-width: 540px) {
+  .paypal-button-container {
+    padding: 6px; /* Further reduce padding */
+  }
+}
+
+/* 430px */
+@media (max-width: 430px) {
+  .paypal-button-container {
+    padding: 4px; /* Minimal padding */
+  }
+}
+
+/* 390px */
+@media (max-width: 390px) {
+  .paypal-button-container {
+    padding: 3px; /* Further reduce padding */
+  }
+}
+
+/* 375px */
+@media (max-width: 375px) {
+  .paypal-button-container {
+    padding: 2px; /* Smallest padding */
+  }
+}
+
+/* 344px */
+@media (max-width: 344px) {
+  .paypal-button-container {
+    padding: 1px; /* Minimal padding for very small screens */
+  }
+}

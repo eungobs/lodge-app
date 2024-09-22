@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { startPayment, paymentSuccess, paymentFailed } from '../features/payment/paymentSlice';
 import { db, auth } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
+import './Payment.css';
 
 const Payment = () => {
   const dispatch = useDispatch();

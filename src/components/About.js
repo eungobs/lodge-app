@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './About.css'; // Import the CSS file for styling
-import { db } from '../firebaseConfig'; // Adjust the path to where firebaseConfig.js is actually located
-import { collection, getDocs } from 'firebase/firestore';
 
 const About = () => {
-  const [policies, setPolicies] = useState([]);
-
   // Hardcoded policies to be displayed on the About page
   const predefinedPolicies = [
     'Check-in & Check-out: Check-in time is 2:00 PM, and check-out is 11:00 AM. Late check-out may incur additional charges.',
@@ -20,25 +16,13 @@ const About = () => {
     'Event Space: Events held in the lodge or outdoor areas must conclude by 10:00 PM unless prior arrangements are made.'
   ];
 
-  // Fetch policies from Firebase on component mount
-  useEffect(() => {
-    const fetchPolicies = async () => {
-      const policiesCollection = collection(db, 'policies');
-      const policySnapshot = await getDocs(policiesCollection);
-      const policyList = policySnapshot.docs.map(doc => doc.data());
-      setPolicies(policyList);
-    };
-
-    fetchPolicies();
-  }, []);
-
   // Navigation function
   const handleBackButtonClick = () => {
     window.location.href = '/'; // Redirects to the home page
   };
 
   return (
-    <div className="container">
+    <div className="about-container">
       <h2>About Sunset Heaven Lodge</h2>
       <p>
         Sunset Heaven Lodge is a serene getaway destination located in the picturesque mountains of Krugersdorp, Muldersdrift. With beautiful mountain views, it’s a paradise for nature lovers. Our property is home to friendly animals like zebras, ducks, giraffes, swans, and impalas, which can be viewed during the day.
@@ -52,48 +36,6 @@ const About = () => {
       <p>
         For your convenience and safety, we offer secure parking with surveillance cameras. Additionally, we have a safe play area for children, supervised by two nannies, allowing parents to enjoy their time exploring the lodge.
       </p>
-      <div className="image-gallery">
-        <img
-          src="https://i.pinimg.com/564x/4f/a2/38/4fa2381ee44a096424a344db3016afb3.jpg"
-          alt="Children's Play Area"
-        />
-        <img
-          src="https://i.pinimg.com/564x/a9/71/04/a971042a44a2c37efc0fa2dd3d0575dc.jpg"
-          alt="Lodge Facilities"
-        />
-        <img
-          src="https://i.pinimg.com/564x/bc/c3/a3/bcc3a3be1c81ee05cbdc64b8ada16387.jpg"
-          alt="Beachside and Pool"
-        />
-        <img
-          src="https://i.pinimg.com/736x/1e/ba/a5/1ebaa5a104474c3d0bcb870bb23ed148.jpg"
-          alt="Lodge Overview"
-        />
-        <img
-          src="https://i.pinimg.com/736x/1b/61/25/1b6125a32a3281111d9e0cae2aa92e04.jpg"
-          alt="Accommodation"
-        />
-        <img
-          src="https://i.pinimg.com/736x/db/3d/03/db3d03caee666e3a4ce4e226443a9092.jpg"
-          alt="Relaxation Area"
-        />
-        <img
-          src="https://i.pinimg.com/564x/15/f8/49/15f8490990ec7315a0e0c0c0286a4433.jpg"
-          alt="Dining Experience"
-        />
-        <img
-          src="https://i.pinimg.com/564x/8e/fa/34/8efa34dae23ade053f92fef857734c93.jpg"
-          alt="Event Space"
-        />
-        <img
-          src="https://i.pinimg.com/564x/af/cb/92/afcb924d7e8f78873c008a77823915c1.jpg"
-          alt="Outdoor Seating"
-        />
-        <img
-          src="https://i.pinimg.com/564x/bc/2c/fa/bc2cfaab1d85d0d569507ab7d5ffb121.jpg"
-          alt="Scenic Views"
-        />
-      </div>
       <p>
         Inside our lodge, you'll find a restaurant and a bar. Breakfast is served from 6:00 AM to 11:00 AM, lunch from 12:00 PM to 3:00 PM, and dinner from 6:00 PM to 9:00 PM. Our bar is open from 12:00 PM to 2:00 AM.
       </p>
@@ -110,11 +52,6 @@ const About = () => {
         {/* Display predefined policies */}
         {predefinedPolicies.map((policy, index) => (
           <li key={index}>{policy}</li>
-        ))}
-
-        {/* Display policies fetched from Firebase */}
-        {policies.map((policy, index) => (
-          <li key={index}>{policy.content}</li>
         ))}
       </ul>
 

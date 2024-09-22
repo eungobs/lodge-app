@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../features/userActions'; // Ensure this is correctly implemented
 import { useNavigate } from 'react-router-dom';
 import { FaSun } from 'react-icons/fa';
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -39,7 +40,7 @@ const Login = () => {
     <Container className="mt-5">
       <h2 className="text-center">Login</h2>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="mt-4">
         <Form.Group controlId="formEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control

@@ -1,6 +1,6 @@
 // src/components/BookNow.js
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Button, Col, Row, InputGroup, FormControl } from 'react-bootstrap';
+import { Container, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -58,7 +58,7 @@ const BookNow = ({ handleBooking }) => {
       totalAmount,
       adults,
       children,
-      childrenAges
+      childrenAges,
     };
 
     handleBooking(bookingDetails);
@@ -190,3 +190,4 @@ BookNow.propTypes = {
 };
 
 export default BookNow;
+

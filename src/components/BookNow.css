@@ -24,3 +24,114 @@
 }
 
 
+/* Responsive styles */
+
+/* Large desktops (1200px and above) */
+@media (min-width: 1200px) {
+  .book-now-container {
+    max-width: 700px; /* Wider container on larger screens */
+    padding: 30px; /* More padding */
+  }
+}
+
+/* 1280px */
+@media (max-width: 1280px) {
+  .book-now-container {
+    padding: 25px; /* Adjust padding */
+  }
+}
+
+/* 1024px */
+@media (max-width: 1024px) {
+  .book-now-container {
+    max-width: 650px; /* Adjusted width */
+  }
+}
+
+/* Tablets and below (max-width: 768px) */
+@media (max-width: 768px) {
+  .book-now-container {
+    padding: 15px; /* Less padding on smaller screens */
+    max-width: 100%; /* Full width for smaller devices */
+  }
+}
+
+/* Small phones (max-width: 576px) */
+@media (max-width: 576px) {
+  .book-now-container h2 {
+    font-size: 1.5rem; /* Smaller heading */
+  }
+
+  .book-now-container .btn-primary {
+    font-size: 14px; /* Smaller button text */
+  }
+}
+
+/* Extra small phones (max-width: 360px) */
+@media (max-width: 360px) {
+  .book-now-container h2 {
+    font-size: 1.2rem; /* Further reduce heading size */
+  }
+
+  .book-now-container .form-control {
+    padding: 10px; /* Less padding on inputs */
+  }
+
+  .book-now-container .btn-primary,
+  .book-now-container .btn-secondary {
+    font-size: 12px; /* Smaller button text */
+  }
+}
+
+/* Additional Media Queries for More Responsive Design */
+
+/* 912px */
+@media (max-width: 912px) {
+  .book-now-container {
+    max-width: 90%; /* Adjust for smaller screens */
+  }
+}
+
+/* 853px */
+@media (max-width: 853px) {
+  .book-now-container .form-control {
+    padding: 8px; /* Slightly less padding */
+  }
+}
+
+/* 540px */
+@media (max-width: 540px) {
+  .book-now-container .btn-primary {
+    font-size: 14px; /* Smaller button text */
+    padding: 8px 12px; /* Adjust padding */
+  }
+}
+
+/* 430px */
+@media (max-width: 430px) {
+  .book-now-container .form-control {
+    padding: 6px; /* Adjust input padding */
+  }
+}
+
+/* 390px */
+@media (max-width: 390px) {
+  .book-now-container .form-control {
+    font-size: 12px; /* Smaller font size for inputs */
+  }
+}
+
+/* 375px */
+@media (max-width: 375px) {
+  .book-now-container .form-control {
+    padding: 5px; /* Reduce padding for very small screens */
+  }
+}
+
+/* 344px */
+@media (max-width: 344px) {
+  .book-now-container {
+    padding: 10px; /* Less padding for very small screens */
+  }
+}
+

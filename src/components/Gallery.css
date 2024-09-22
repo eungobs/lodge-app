@@ -73,3 +73,98 @@ h1 {
   background-color: #45a049;
 }
 
+
+/* Responsive styles */
+
+/* Large desktops (1200px and above) */
+@media (min-width: 1200px) {
+  .payment-container {
+    max-width: 700px; /* Wider container on larger screens */
+    padding: 30px; /* More padding */
+  }
+}
+
+/* 1280px */
+@media (max-width: 1280px) {
+  .payment-container {
+    padding: 25px; /* Adjust padding */
+  }
+}
+
+/* 1024px */
+@media (max-width: 1024px) {
+  .payment-container {
+    max-width: 650px; /* Adjusted width */
+  }
+}
+
+/* Tablets and below (max-width: 768px) */
+@media (max-width: 768px) {
+  .payment-container {
+    padding: 15px; /* Less padding on smaller screens */
+    max-width: 100%; /* Full width for smaller devices */
+  }
+}
+
+/* Small phones (max-width: 576px) */
+@media (max-width: 576px) {
+  .payment-container h2 {
+    font-size: 1.5rem; /* Smaller heading */
+  }
+}
+
+/* Extra small phones (max-width: 360px) */
+@media (max-width: 360px) {
+  .payment-container h2 {
+    font-size: 1.2rem; /* Further reduce heading size */
+  }
+}
+
+/* 912px */
+@media (max-width: 912px) {
+  .payment-container {
+    max-width: 90%; /* Adjust for smaller screens */
+  }
+}
+
+/* 853px */
+@media (max-width: 853px) {
+  .payment-container .form-check {
+    margin-bottom: 10px; /* Less space between payment methods */
+  }
+}
+
+/* 540px */
+@media (max-width: 540px) {
+  .payment-container .form-check-label {
+    font-size: 14px; /* Smaller label text */
+  }
+}
+
+/* 430px */
+@media (max-width: 430px) {
+  .payment-container .form-check {
+    margin-bottom: 8px; /* Further reduce space */
+  }
+}
+
+/* 390px */
+@media (max-width: 390px) {
+  .payment-container .form-check-label {
+    font-size: 12px; /* Smaller font size for labels */
+  }
+}
+
+/* 375px */
+@media (max-width: 375px) {
+  .payment-container {
+    padding: 10px; /* Less padding for very small screens */
+  }
+}
+
+/* 344px */
+@media (max-width: 344px) {
+  .payment-container h2 {
+    font-size: 1rem; /* Smallest heading size */
+  }
+}

@@ -22,7 +22,7 @@ const Register = () => {
   const [idType, setIdType] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [idNumber, setIdNumber] = useState("");
-  const [image, setImage] = useState(null); 
+  const [image, setImage] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
@@ -58,11 +58,11 @@ const Register = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      let imageUrl = ""; 
+      let imageUrl = "";
 
       if (image) {
         const imageRef = ref(storage, `user-images/${user.uid}`);
-        await uploadBytes(imageRef, image); 
+        await uploadBytes(imageRef, image);
         imageUrl = await getDownloadURL(imageRef);
       }
 
@@ -79,7 +79,7 @@ const Register = () => {
         idType,
         dateOfBirth,
         idNumber,
-        profileImage: imageUrl, 
+        profileImage: imageUrl,
       });
 
       navigate("/profile");
@@ -119,14 +119,12 @@ const Register = () => {
   };
 
   return (
-    <Container className="mt-5 p-5" style={{ backgroundColor: '#e0f7fa', borderRadius: '10px', maxWidth: '800px' }}>
-      <div className="text-center mb-4">
-        <img src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg" alt="Logo" style={{ width: '80px', borderRadius: '50%' }} />
-      </div>
-      <h3 className="text-center">Personal Information</h3>
-      {error && <Alert variant="danger">{error}</Alert>}
-      {loading && <div className="text-center"><Spinner animation="border" /></div>}
+    <Container className="mt-5 p-5" style={{ maxWidth: '800px' }}>
       <Form onSubmit={handleSubmit}>
+        <h3 className="text-center">Personal Information</h3>
+        {error && <Alert variant="danger">{error}</Alert>}
+        {loading && <div className="text-center"><Spinner animation="border" /></div>}
+        
         <Row>
           <Col>
             <Form.Group controlId="formFullName">
@@ -332,7 +330,7 @@ const Register = () => {
         </Button>
       </Form>
       {subscriptionSuccessful && (
-        <div style={{ marginTop: '20px', color: 'green' }}>
+        <div className="success-message">
           Subscription successful! Thank you for subscribing.
         </div>
       )}
@@ -341,3 +339,4 @@ const Register = () => {
 };
 
 export default Register;
+

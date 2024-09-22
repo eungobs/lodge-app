@@ -1,106 +1,79 @@
-/* register.css */
+/* src/styles/register.css */
 
-/* Container styling */
 .container {
-  background-color: #e0f7fa; /* Light cyan background */
-  border-radius: 10px; /* Rounded corners */
-  max-width: 800px; /* Maximum width of the container */
-  padding: 2rem; /* Reduced padding around the content */
-  margin: 2rem auto; /* Center horizontally and space from top */
-  position: relative; /* Relative positioning for alignment */
-  top: 10%; /* Position from the top */
-  left: 60%; /* Position from the left */
-  transform: translateX(-80%); /* Center the container horizontally */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Optional: Add shadow for better visibility */
+  background-color: #e0f7fa;
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo styling */
-.container img {
-  width: 150px; /* Logo width */
-  border-radius: 50%; /* Circular logo */
-  margin-bottom: 1rem; /* Spacing below the logo */
-  display: block; /* Ensure logo is a block-level element */
-  margin-left: auto; /* Center horizontally */
-  margin-right: auto; /* Center horizontally */
-}
-
-/* Header styling */
 h3 {
-  text-align: center; /* Center-align text */
-  margin-top: 1rem; /* Margin on top */
-  margin-bottom: 1rem; /* Margin on bottom */
+  text-align: center;
+  color: #00796b;
+  margin: 20px 0;
 }
 
-/* Form section styling */
-.form-section {
-  margin-bottom: 5rem; /* Spacing between sections */
+.form-group {
+  margin-bottom: 20px;
 }
 
-/* Form control styling */
 .form-control {
-  border-radius: 5px; /* Rounded corners for input fields */
-  padding: 0.75rem; /* Padding inside the input fields */
-  margin-bottom: 1rem; /* Margin below each input field */
+  width: 100%;  /* Ensure full width for inputs */
+  padding: 10px; /* Add padding for better UX */
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
-/* Button styling */
-.btn-secondary {
-  background-color: #007bff; /* Blue background */
-  border-color: #007bff; /* Blue border */
-  color: #fff; /* White text */
-  border-radius: 5px; /* Rounded corners */
-  padding: 0.75rem 1.25rem; /* Padding inside the button */
+.btn {
+  display: inline-block;
+  padding: 10px 20px; /* Add padding for better button size */
+  background-color: #00796b; /* Button color */
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.btn-info {
-  background-color: #17a2b8; /* Teal background */
-  border-color: #17a2b8; /* Teal border */
-  color: #fff; /* White text */
-  border-radius: 5px; /* Rounded corners */
-  padding: 0.75rem 1.25rem; /* Padding inside the button */
-}
-
-.btn-success {
-  background-color: #28a745; /* Green background */
-  border-color: #28a745; /* Green border */
-  color: #fff; /* White text */
-  border-radius: 5px; /* Rounded corners */
-  padding: 0.75rem 1.25rem; /* Padding inside the button */
-}
-
-/* Button layout */
-.d-flex {
-  display: flex; /* Flexbox layout */
-}
-
-.justify-content-between {
-  justify-content: space-between; /* Space between buttons */
-}
-
-.w-100 {
-  width: 100%; /* Full width for the button */
-}
-
-/* Margin adjustment for rows and columns */
-.mt-3 {
-  margin-top: 1rem; /* Adjusted margin on top */
+.btn:hover {
+  background-color: #004d40; /* Darken button on hover */
 }
 
 .mt-4 {
-  margin-top: 1.5rem; /* Margin on top */
+  margin-top: 1.5rem;
 }
 
 .text-center {
-  text-align: center; /* Center-align text */
+  text-align: center;
 }
 
-@media (max-width: 768px) {
-  /* Responsive adjustments */
-  .form-control {
-    font-size: 0.9rem; /* Slightly smaller font size on small screens */
-  }
+.d-flex {
+  display: flex;
+}
 
-  .btn-secondary, .btn-info, .btn-success {
-    padding: 0.5rem 1rem; /* Smaller padding on small screens */
-  }
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.alert {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: #f8d7da; /* Example for a red alert */
+  color: #721c24;
+}
+
+.spinner-border {
+  margin: 20px auto;
+  display: block;
+}
+
+.success-message {
+  margin-top: 20px;
+  color: green;
+  text-align: center;
 }

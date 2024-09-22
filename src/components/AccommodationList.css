@@ -1,6 +1,10 @@
+/* Carousel Container */
 .carousel-container {
   position: relative;
   width: 100%;
+  display: flex; /* Flexbox for centering */
+  justify-content: center; /* Center carousel items */
+  align-items: center; /* Center vertically if needed */
 }
 
 .main-image {
@@ -46,6 +50,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex; /* Use flexbox to center items */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center align items */
 }
 
 .amenity-item {
@@ -78,16 +85,17 @@
   margin-top: 10px;
 }
 
-/* AccommodationList.css */
-
+/* Accommodation List Styles */
 .available-room {
   border: 2px solid green; /* Highlight border for available rooms */
   position: relative;
+  text-align: center; /* Center text within room boxes */
 }
 
 .not-available-room {
   border: 2px solid red; /* Highlight border for not available rooms */
   position: relative;
+  text-align: center; /* Center text within room boxes */
 }
 
 .available-room::after {
@@ -163,5 +171,76 @@
   .gallery-image {
     width: 70px; /* Even smaller square images */
     height: 70px;
+  }
+}
+
+/* Additional Media Queries for More Responsive Design */
+
+/* 1280px */
+@media (max-width: 1280px) {
+  .main-image {
+    height: 250px; /* Adjust height for medium screens */
+  }
+}
+
+/* 1024px */
+@media (max-width: 1024px) {
+  .main-image {
+    height: 200px; /* Maintain height */
+  }
+}
+
+/* 912px */
+@media (max-width: 912px) {
+  .gallery-image {
+    width: 90px; /* Adjust for smaller screens */
+    height: 90px;
+  }
+}
+
+/* 853px */
+@media (max-width: 853px) {
+  .gallery-image {
+    width: 85px; /* Further adjustment */
+    height: 85px;
+  }
+}
+
+/* 540px */
+@media (max-width: 540px) {
+  .share-button {
+    font-size: 14px; /* Smaller button text */
+    padding: 8px 12px; /* Adjust padding */
+  }
+}
+
+/* 430px */
+@media (max-width: 430px) {
+  .gallery-image {
+    width: 75px; /* Smaller square images */
+    height: 75px;
+  }
+}
+
+/* 390px */
+@media (max-width: 390px) {
+  .gallery-image {
+    width: 60px; /* Adjust for very small screens */
+    height: 60px;
+  }
+}
+
+/* 375px */
+@media (max-width: 375px) {
+  .gallery-image {
+    width: 55px; /* Further adjustment */
+    height: 55px;
+  }
+}
+
+/* 344px */
+@media (max-width: 344px) {
+  .main-image {
+    height: 100px; /* Reduce height for very small screens */
   }
 }
