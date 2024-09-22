@@ -1,131 +1,24 @@
-/* Carousel Container */
-.carousel-container {
-  position: relative;
-  width: 100%;
-  display: flex; /* Flexbox for centering */
-  justify-content: center; /* Center carousel items */
-  align-items: center; /* Center vertically if needed */
-}
-
-.main-image {
-  width: 100%; /* Fill the entire width */
-  height: 200px; /* Fixed height */
-  object-fit: cover; /* Maintain aspect ratio */
-  cursor: pointer; /* Show pointer cursor on hover */
-}
-
-.gallery-container {
-  position: relative; /* For positioning the close button */
-}
-
-.close-gallery-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.gallery-images {
+.accommodation-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Centering the gallery images */
-  margin-top: 10px;
 }
 
-.gallery-image {
-  width: 100px; /* Fixed width for square gallery images */
-  height: 100px; /* Fixed height */
-  margin: 5px; /* Space around each image */
-  border: 2px solid #007bff; /* Blue border around gallery images */
-  border-radius: 0; /* Square corners */
-  object-fit: cover; /* Maintain aspect ratio */
-  transition: transform 0.2s; /* Smooth transition */
-  cursor: pointer; /* Show pointer cursor on hover */
+.accommodation-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
 }
 
-.gallery-image:hover {
-  transform: scale(1.05); /* Slightly enlarge on hover */
+.booking-page {
+  padding: 20px;
 }
 
-.amenities-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex; /* Use flexbox to center items */
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center align items */
-}
-
-.amenity-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.amenity-item svg {
-  margin-right: 8px; /* Spacing between icon and label */
-}
-
-.modal-image {
-  width: 100%; /* Full width for modal image */
-  height: auto; /* Maintain aspect ratio */
-}
-
-/* Share Button Styles */
-.share-button {
-  display: inline-flex;
-  align-items: center;
-  background-color: #25D366; /* WhatsApp green */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
-}
-
-/* Accommodation List Styles */
-.available-room {
-  border: 2px solid green; /* Highlight border for available rooms */
-  position: relative;
-  text-align: center; /* Center text within room boxes */
-}
-
-.not-available-room {
-  border: 2px solid red; /* Highlight border for not available rooms */
-  position: relative;
-  text-align: center; /* Center text within room boxes */
-}
-
-.available-room::after {
-  content: 'Available';
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: green;
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.not-available-room::after {
-  content: 'Not Available';
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: red;
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.share-button:hover {
-  background-color: #1ebe57; /* Darker green on hover */
-}
-
-.share-button svg {
-  margin-right: 8px; /* Spacing between icon and text */
+.accommodation-details img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Responsive styles */
