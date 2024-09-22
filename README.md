@@ -31,7 +31,9 @@ User Profile
 View/Edit Profile: Manage personal profile information.
 View Bookings: Access details of past and upcoming bookings.
 View Favourites: Review and manage saved favourite accommodations.
+
 Admin Panel
+github link: https://github.com/eungobs/lodge-admin.git
 Admin Authentication: Admins log in to access the CMS.
 CMS Login Credentials:
 Email: eungo@gmail.com
@@ -62,7 +64,7 @@ Frontend: React.js
 Backend: Firebase Firestore/Real-time Database
 State Management: Redux Toolkit
 Authentication: Firebase Authentication
-Payments: [Payment Gateway of Choice]
+Payments: Paypal
 UI/UX Design: Designed using Figma
 Coding Environment: Visual Studio Code
 Testing
@@ -79,7 +81,7 @@ Setup and Installation
 Clone the Repository
 
 
-git clone https://github.com/yourusername/sunset-heaven-lodge.git
+git clone https://github.com/eungobs/sunset-heaven-lodge.git
 cd sunset-heaven-lodge
 Install Dependencies
 
@@ -99,6 +101,8 @@ Build for Production
 npm run build
 Contributing
 Contributions are welcome! Please follow the standard pull request process and ensure that your changes are well-documented. For detailed guidelines, refer to the CONTRIBUTING.md file.
+
+Figma link:https://www.figma.com/design/F8cn3hGq5zNWooIwWXMB67/lodge-sckeches?node-id=54-126&t=b1DDil8UNUvNWFai-1
 
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
