@@ -27,24 +27,37 @@
   display: flex;
   justify-content: flex-end;
   margin-top: -15px; /* Moves buttons closer to the title */
+  position: relative; /* Positioning for better z-index control */
+  z-index: 10; /* Ensures buttons are above other elements */
 }
 
 .header-buttons .btn {
-  margin-left: 10px;
+  margin-left: 5px; /* Adjusted margin for spacing */
+  padding: 5px 10px; /* Small padding for a smaller button size */
+  font-size: 12px; /* Smaller font size for buttons */
   color: rgb(165, 141, 141);
+  border: none; /* Removes border */
+  background-color: #e0f7fa; /* Matches header background */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* Hover effect for buttons */
+.header-buttons .btn:hover {
+  background-color: #b2ebf2; /* Light blue on hover */
 }
 
 /* Logo */
 .logo {
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
 }
 
 /* Main Image */
 .main-image-container {
   text-align: right;
-  margin-top: -15px; /* Moves the main image up */
+  margin-top: 10px; /* Moves the main image up */
   padding-right: 10px;
   position: relative;
   z-index: 1;  /* Ensures the image is behind the title */
@@ -52,7 +65,7 @@
 
 .main-image {
   width: 100%;
-  height: 600px; /* Adjusted height for the main image */
+  max-height: 350px; /* Set a maximum height for the main image */
   object-fit: cover;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
@@ -103,11 +116,13 @@
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap; /* Ensure images wrap on smaller screens */
 }
 
 .small-image {
   text-align: center;
   font-size: 14px;
+  margin-bottom: 20px; /* Space between rows of small images */
 }
 
 .small-image img {
@@ -171,6 +186,70 @@
 
 .footer a:hover {
   color: #ff6347;
+}
+
+/* Hamburger Menu Styles */
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  display: none; /* Initially hidden */
+}
+
+.header-buttons .btn:hover + .dropdown-menu {
+  display: block; /* Show on button hover */
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header-buttons {
+    flex-direction: column; /* Stack buttons on smaller screens */
+    align-items: flex-end;
+  }
+  
+  .events-offers {
+    flex-direction: column; /* Stack events and offers */
+    align-items: center;
+  }
+
+  .small-images-section {
+    flex-direction: column; /* Stack small images */
+    align-items: center;
+  }
+}
+
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header-buttons {
+    flex-direction: column; /* Stack buttons on smaller screens */
+    align-items: flex-end;
+  }
+  
+  .events-offers {
+    flex-direction: column; /* Stack events and offers */
+    align-items: center;
+  }
+
+  .small-images-section {
+    flex-direction: column; /* Stack small images */
+    align-items: center;
+  }
 }
 
 /* Responsive styles */

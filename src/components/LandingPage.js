@@ -12,7 +12,7 @@ const LandingPage = () => {
   useEffect(() => {
     const loadImages = async () => {
       try {
-        const storageRef = ref(storage, 'gallery/landingpage/'); // Reference to the folder in Firebase Storage
+        const storageRef = ref(storage, 'gallery/landingpage/');
         const imageRefs = await listAll(storageRef);
         const urls = await Promise.all(
           imageRefs.items.map(async (imageRef) => {
@@ -34,7 +34,7 @@ const LandingPage = () => {
     setClickedImage(imageIndex);
   };
 
-  // Room details and prices
+  // Room details array
   const roomDetails = [
     { details: '2 Adults | Breakfast & Dinner', price: 'ZA950', originalPrice: 'ZA1200' },
     { details: 'Group (School/Church) | Breakfast & Dinner', price: 'ZA1450', originalPrice: 'ZA1950' },
@@ -44,28 +44,25 @@ const LandingPage = () => {
 
   return (
     <div className="container-fluid landing-page">
-      {/* Header Section */}
       <header className="row align-items-center">
-        <div className="col-6 text-left">
+        <div className="col-6 text-left d-flex align-items-center">
           <img
             src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg"
             alt="Sunset Heaven Lodge logo"
             className="logo"
           />
+          <h1 className="lodge-title ml-3">Sunset Heaven Lodge</h1>
         </div>
         <div className="col-6 text-right header-buttons">
-          <Link to="/register" className="btn btn-secondary">Register</Link>
-          <Link to="/login" className="btn btn-secondary">Login</Link>
-          <Link to="/about" className="btn btn-secondary">About</Link>
-          <Link to="/profile" className="btn btn-secondary">My Profile</Link>
-          <Link to="/accommodations" className="btn btn-secondary">Accommodation</Link>
-          <Link to="/gallery" className="btn btn-secondary">Gallery</Link>
+          <Link to="/register" className="btn btn-secondary mx-1">Register</Link>
+          <Link to="/login" className="btn btn-secondary mx-1">Login</Link>
+          <Link to="/about" className="btn btn-secondary mx-1">About</Link>
+          <Link to="/profile" className="btn btn-secondary mx-1">My Profile</Link>
+          <Link to="/accommodations" className="btn btn-secondary mx-1">Accommodation</Link>
+          <Link to="/gallery" className="btn btn-secondary mx-1">Gallery</Link>
         </div>
       </header>
 
-      <h1 className="text-center lodge-title">Sunset Heaven Lodge</h1>
-
-      {/* Main Image Section */}
       <section className="row">
         <div className="col-12">
           <div className="main-image-container">
@@ -99,7 +96,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Events and Offers Section */}
       <section className="row events-offers">
         <div className="col-6 text-center">
           <h4 className="blinking-text">Upcoming Events</h4>
@@ -115,7 +111,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Small Images Section */}
       <section className="row small-images-section">
         {smallImageUrls.length > 0 ? (
           smallImageUrls.map((url, index) => (
@@ -140,7 +135,6 @@ const LandingPage = () => {
         )}
       </section>
 
-      {/* Footer Section */}
       <footer className="row footer">
         <div className="col-3">
           <div className="social-icons">
@@ -164,6 +158,7 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
 
 
 
