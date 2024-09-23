@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom'; // To access the passed state
 import { Container, Form, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { startPayment, paymentSuccess, paymentFailed } from '../features/payment/paymentSlice';
@@ -7,28 +8,31 @@ import { doc, setDoc } from 'firebase/firestore';
 import './Payment.css';
 
 const Payment = () => {
+  const location = useLocation(); // This will access the passed state from BookNow
   const dispatch = useDispatch();
   const { paymentStatus, error } = useSelector((state) => state.payment);
   const [paymentMethod, setPaymentMethod] = useState('paypal');
+  const [amount, setAmount] = useState(location.state?.bookingDetails?.totalAmount || '10.00'); // Fetching correct amount
 
+  // Handle Payment logic
   const handlePayment = useCallback(async (details) => {
     dispatch(startPayment());
 
     try {
-      const bookingId = new Date().getTime(); // Replace with your actual booking ID logic
+      const bookingId = new Date().getTime(); // Unique booking ID
       const user = auth.currentUser;
 
       if (user) {
         await setDoc(doc(db, 'bookings', `${bookingId}`), {
           userId: user.uid,
-          bookingDetails: details,
-          paymentMethod: paymentMethod,
+          bookingDetails: location.state.bookingDetails, // Storing all booking details
+          paymentMethod,
+          amount, // Store the dynamic amount
           status: 'Confirmed',
           createdAt: new Date(),
         });
 
         dispatch(paymentSuccess());
-        // Redirect to confirmation page or show success message
       } else {
         throw new Error('User is not authenticated.');
       }
@@ -36,32 +40,47 @@ const Payment = () => {
       console.error('Error saving booking:', err.message);
       dispatch(paymentFailed(err.message));
     }
-  }, [dispatch, paymentMethod]);
+  }, [dispatch, paymentMethod, amount, location.state.bookingDetails]);
 
+  // Load PayPal Button once
   useEffect(() => {
-    if (window.paypal) {
-      window.paypal.Buttons({
-        createOrder: (data, actions) => {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: '10.00', // Replace with dynamic amount
-              },
-            }],
-          });
-        },
-        onApprove: async (data, actions) => {
-          return actions.order.capture().then(async (details) => {
-            handlePayment(details);
-          });
-        },
-        onError: (err) => {
-          console.error('PayPal error:', err);
-          dispatch(paymentFailed('PayPal payment failed.'));
-        },
-      }).render('#paypal-button-container');
+    const paypalButtonContainer = document.querySelector('#paypal-button-container');
+    
+    if (paypalButtonContainer && paypalButtonContainer.children.length === 0) {
+      if (window.paypal) {
+        window.paypal.Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: amount, // Dynamic amount
+                },
+              }],
+            }).catch(err => {
+              console.error('Error creating order:', err);
+              dispatch(paymentFailed('Error creating PayPal order.'));
+            });
+          },
+          onApprove: async (data, actions) => {
+            try {
+              const details = await actions.order.capture();
+              handlePayment(details);
+            } catch (err) {
+              console.error('Error capturing order:', err);
+              dispatch(paymentFailed('Error capturing PayPal order.'));
+            }
+          },
+          onError: (err) => {
+            console.error('PayPal error:', err);
+            dispatch(paymentFailed('PayPal payment failed.'));
+          },
+        }).render('#paypal-button-container').catch((err) => {
+          console.error('Error rendering PayPal buttons:', err);
+          dispatch(paymentFailed('Error rendering PayPal buttons.'));
+        });
+      }
     }
-  }, [dispatch, handlePayment]);
+  }, [amount, dispatch, handlePayment]);
 
   return (
     <Container className="mt-5">
@@ -69,6 +88,14 @@ const Payment = () => {
       {paymentStatus === 'failed' && <Alert variant="danger">{error}</Alert>}
       {paymentStatus === 'succeeded' && <Alert variant="success">Payment successful! We can't wait to host you at our lodge.</Alert>}
       <Form>
+        <Form.Group controlId="formAmount">
+          <Form.Label>Amount</Form.Label>
+          <Form.Control
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)} // Allow user to change amount
+          />
+        </Form.Group>
         <Form.Group controlId="formPaymentMethod">
           <Form.Label>Select Payment Method</Form.Label>
           <Form.Check
@@ -79,10 +106,13 @@ const Payment = () => {
             onChange={(e) => setPaymentMethod(e.target.value)}
           />
         </Form.Group>
-        <div id="paypal-button-container"></div>
+        <div id="paypal-button-container"></div> {/* PayPal button renders here */}
       </Form>
     </Container>
   );
 };
 
 export default Payment;
+
+
+

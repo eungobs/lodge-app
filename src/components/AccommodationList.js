@@ -40,8 +40,8 @@ const AccommodationList = () => {
     fetchAccommodations();
   }, []);
 
-  const handleBook = (id) => {
-    navigate(`/book/${id}`);
+  const handleBook = (accommodation) => {
+    navigate(`/book/${accommodation.id}`, { state: { amount: accommodation.price, name: accommodation.name } });
   };
 
   const handleImageClick = (image) => {
@@ -56,7 +56,13 @@ const AccommodationList = () => {
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Typography variant="h4" gutterBottom>Accommodation List</Typography>
+      <Typography 
+        variant="h4" 
+        gutterBottom 
+        sx={{ fontWeight: 'bold', fontStyle: 'italic', textAlign: 'center', marginY: 3 }}
+      >
+        Accommodations
+      </Typography>
       <Grid container spacing={2}>
         {accommodations.map(accommodation => (
           <Grid item xs={12} sm={6} md={4} key={accommodation.id}>
@@ -88,7 +94,12 @@ const AccommodationList = () => {
                   : 'No utilities available'}
                 </Typography>
                 {accommodation.breakfastIncluded && <Typography variant="body1">Breakfast Included</Typography>}
-                <Button variant="contained" color="primary" onClick={() => handleBook(accommodation.id)} sx={{ marginTop: 2 }}>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  onClick={() => handleBook(accommodation)} // Pass the whole accommodation object
+                  sx={{ marginTop: 2 }}
+                >
                   Book Now
                 </Button>
               </CardContent>
@@ -127,5 +138,3 @@ const AccommodationList = () => {
 };
 
 export default AccommodationList;
-
-

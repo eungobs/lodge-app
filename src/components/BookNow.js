@@ -1,4 +1,3 @@
-// src/components/BookNow.js
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -20,8 +19,9 @@ const BookNow = ({ handleBooking }) => {
   const [children, setChildren] = useState(0);
   const [childrenAges, setChildrenAges] = useState([]);
 
-  const pricePerNight = 150;
+  const pricePerNight = 150; // Price per night
 
+  // Fetch accommodation details (dummy data for now)
   useEffect(() => {
     const fetchAccommodation = async () => {
       const fetchedAccommodation = { id, name: 'Sample Accommodation' }; // Dummy data
@@ -31,16 +31,18 @@ const BookNow = ({ handleBooking }) => {
     fetchAccommodation();
   }, [id]);
 
+  // Calculate total amount based on check-in and check-out dates
   useEffect(() => {
     if (checkInDate && checkOutDate) {
       const diffTime = Math.abs(checkOutDate - checkInDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Calculate number of nights
       setTotalAmount(diffDays * pricePerNight);
     } else {
-      setTotalAmount(0);
+      setTotalAmount(0); // Reset amount if dates are not selected
     }
   }, [checkInDate, checkOutDate]);
 
+  // Handle booking submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -62,13 +64,16 @@ const BookNow = ({ handleBooking }) => {
     };
 
     handleBooking(bookingDetails);
+    // Navigate to the payment page and pass the booking details as state
     navigate('/payment', { state: { bookingDetails } });
   };
 
+  // Handle adding more children ages
   const handleAddChildren = () => {
     setChildrenAges([...childrenAges, '']);
   };
 
+  // Handle age change for children
   const handleAgeChange = (index, value) => {
     const updatedAges = [...childrenAges];
     updatedAges[index] = value;
@@ -190,4 +195,3 @@ BookNow.propTypes = {
 };
 
 export default BookNow;
-
