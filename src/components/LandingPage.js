@@ -23,7 +23,8 @@ const LandingPage = () => {
         setSmallImageUrls(urls);
       } catch (error) {
         console.error('Error fetching small images from Firebase Storage:', error);
-        setSmallImageUrls([]); // Ensure to handle the empty state gracefully
+        setSmallImageUrls([]); // Handle the empty state gracefully
+        alert("Failed to load images. Please try again later."); // User feedback
       }
     };
 
@@ -118,7 +119,7 @@ const LandingPage = () => {
               <div className="small-image">
                 <img
                   src={url}
-                  alt={`Room detail ${index + 1}`}
+                  alt={`Room detail ${index + 1} at Sunset Heaven Lodge`}
                   className={`img-fluid ${clickedImage === index + 4 ? 'clicked' : ''}`}
                   onClick={() => handleImageClick(index + 4)}
                 />
@@ -161,4 +162,6 @@ export default LandingPage;
 
 
 
+ 
 
+ 

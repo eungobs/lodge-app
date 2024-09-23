@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebaseConfig'; // Ensure this path is correct
-import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Button, Grid, Box, Modal } from '@mui/material';
 
@@ -24,6 +24,8 @@ const AccommodationList = () => {
   const [accommodations, setAccommodations] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState('');
+  const [ratings, setRatings] = useState({});
+  const [ratingCounts, setRatingCounts] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,6 +36,23 @@ const AccommodationList = () => {
         id: doc.id,
         ...doc.data(),
       }));
+
+      // Fetch ratings from Firestore for each accommodation
+      const fetchedRatings = {};
+      const fetchedRatingCounts = {};
+
+      accommodationsSnapshot.docs.forEach(doc => {
+        const data = doc.data();
+        if (data.ratings) {
+          const totalRatings = Object.values(data.ratings).reduce((sum, val) => sum + val, 0);
+          const ratingCount = Object.values(data.ratings).length;
+          fetchedRatings[doc.id] = totalRatings / ratingCount;
+          fetchedRatingCounts[doc.id] = ratingCount;
+        }
+      });
+
+      setRatings(fetchedRatings);
+      setRatingCounts(fetchedRatingCounts);
       setAccommodations(accommodationsList);
     };
 
@@ -52,6 +71,52 @@ const AccommodationList = () => {
   const handleClose = () => {
     setOpen(false);
     setCurrentImage('');
+  };
+
+  // Function to handle star rating click
+  const handleRating = async (id, rating) => {
+    const accommodationRef = doc(db, 'accommodationRoom', id);
+    const newCount = (ratingCounts[id] || 0) + 1;
+
+    // Update Firestore with the new rating
+    await updateDoc(accommodationRef, {
+      [`ratings.${newCount}`]: rating, // Add the rating to Firestore
+    });
+
+    // Update the local state
+    setRatings((prevRatings) => ({
+      ...prevRatings,
+      [id]: ((prevRatings[id] || 0) * (ratingCounts[id] || 0) + rating) / newCount,
+    }));
+    setRatingCounts((prevCounts) => ({
+      ...prevCounts,
+      [id]: newCount,
+    }));
+  };
+
+  const renderStars = (id) => {
+    const rating = ratings[id] || 0; // Get the rating or default to 0
+    const count = ratingCounts[id] || 0; // Get the count or default to 0
+    return (
+      <Box>
+        {[...Array(5)].map((_, index) => (
+          <span 
+            key={index} 
+            onClick={() => handleRating(id, index + 1)} // Set rating on click
+            style={{
+              cursor: 'pointer',
+              fontSize: '24px',
+              color: index < rating ? 'gold' : 'gray' // Fill stars based on rating
+            }}
+          >
+            ★
+          </span>
+        ))}
+        <Typography variant="body2" color="text.secondary">
+          {count > 0 ? `${count} ${count === 1 ? 'person' : 'people'} rated` : 'No ratings yet'}
+        </Typography>
+      </Box>
+    );
   };
 
   return (
@@ -94,6 +159,10 @@ const AccommodationList = () => {
                   : 'No utilities available'}
                 </Typography>
                 {accommodation.breakfastIncluded && <Typography variant="body1">Breakfast Included</Typography>}
+                
+                {/* Render the star rating and count */}
+                {renderStars(accommodation.id)}
+                
                 <Button 
                   variant="contained" 
                   color="primary" 
@@ -103,34 +172,23 @@ const AccommodationList = () => {
                   Book Now
                 </Button>
               </CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: 1 }}>
-                {accommodation.images && accommodation.images.map((image, index) => (
-                  <CardMedia
-                    key={index}
-                    component="img"
-                    image={image}
-                    alt={`Accommodation ${index + 1}`}
-                    sx={{ width: '80px', height: '80px', cursor: 'pointer', objectFit: 'cover' }}
-                    onClick={() => handleImageClick(image)} // Zoom on image click
-                  />
-                ))}
+              <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                <img
+                  src={accommodation.images[0]} // Display the first image
+                  alt={accommodation.name}
+                  style={{ width: '100%', cursor: 'pointer' }}
+                  onClick={() => handleImageClick(accommodation.images[0])} // Handle image click
+                />
               </Box>
             </Card>
           </Grid>
         ))}
       </Grid>
 
-      {/* Modal for Zooming Images */}
+      {/* Modal to display full image */}
       <Modal open={open} onClose={handleClose}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
-          <Box sx={{ maxHeight: '80%', maxWidth: '80%' }}>
-            <img 
-              src={currentImage} 
-              alt="Zoomed accommodation" 
-              style={{ width: '100%', cursor: 'pointer' }} 
-              onClick={handleClose} // Close modal on image click
-            />
-          </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <img src={currentImage} alt="Accommodation" style={{ maxHeight: '90%', maxWidth: '90%' }} />
         </Box>
       </Modal>
     </Box>
