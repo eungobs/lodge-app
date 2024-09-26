@@ -1,174 +1,236 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
-import { storage } from '../firebaseConfig'; // Import storage from firebaseConfig
-import { ref, listAll, getDownloadURL } from 'firebase/storage'; // Import required functions
-import './LandingPage.css';
+import { db } from '../firebaseConfig';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, Typography, Button, Grid, Box, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
-const LandingPage = () => {
-  const [clickedImage, setClickedImage] = useState(null);
-  const [smallImageUrls, setSmallImageUrls] = useState([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown menu
+const UtilityIcons = {
+  wifi: '📶',
+  gardenView: '🌳',
+  airConditioning: '❄️',
+  mountainView: '🏔️',
+  beachView: '🏖️',
+  attachedBathroom: '🚿',
+  flatScreenTV: '📺',
+  coffeeMachine: '☕',
+  parking: '🅿️',
+  deviceChargingPorts: '🔌',
+  microwave: '🥡',
+  iron: '🧺',
+  hairDryer: '💇‍♀️',
+};
+
+const AccommodationList = () => {
+  const [accommodations, setAccommodations] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRatings, setSelectedRatings] = useState({});
+  const [zoomedImage, setZoomedImage] = useState(null); // Added state for zoomed image
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const loadImages = async () => {
-      try {
-        const storageRef = ref(storage, 'gallery/landingpage/');
-        const imageRefs = await listAll(storageRef);
-        const urls = await Promise.all(
-          imageRefs.items.map(async (imageRef) => {
-            const url = await getDownloadURL(imageRef);
-            return url;
-          })
-        );
-        setSmallImageUrls(urls);
-      } catch (error) {
-        console.error('Error fetching small images from Firebase Storage:', error);
-        setSmallImageUrls([]); // Handle the empty state gracefully
-        alert("Failed to load images. Please try again later."); // User feedback
-      }
+    const fetchAccommodations = async () => {
+      const accommodationsCollection = collection(db, 'accommodationRoom');
+      const accommodationsSnapshot = await getDocs(accommodationsCollection);
+      const accommodationsList = accommodationsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAccommodations(accommodationsList);
     };
 
-    loadImages();
+    fetchAccommodations();
   }, []);
 
-  const handleImageClick = (imageIndex) => {
-    setClickedImage(imageIndex);
+  const handleBook = (accommodation) => {
+    navigate(`/book/${accommodation.id}`, { state: { amount: accommodation.price, name: accommodation.name } });
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen); // Toggle dropdown state
+  const toggleZoom = (imageSrc) => {
+    setZoomedImage(imageSrc === zoomedImage ? null : imageSrc);
   };
 
-  // Room details array
-  const roomDetails = [
-    { details: '2 Adults | Breakfast & Dinner', price: 'ZA950', originalPrice: 'ZA1200' },
-    { details: 'Group (School/Church) | Breakfast & Dinner', price: 'ZA1450', originalPrice: 'ZA1950' },
-    { details: '2 Adults & 2 Kids | Breakfast & Dinner', price: 'ZA750', originalPrice: 'ZA1100' },
-    { details: 'Sharing (4 People) | Breakfast & Dinner', price: 'ZA920', originalPrice: 'ZA1400' }
-  ];
+  const submitRatingToFirestore = async (id, newRating) => {
+    try {
+      const accommodationRef = doc(db, 'accommodationRoom', id);
+      const accommodation = accommodations.find(accommodation => accommodation.id === id);
+      const newRatingCount = (accommodation.ratingCounts || 0) + 1;
+      await updateDoc(accommodationRef, {
+        ratings: newRating,
+        ratingCounts: newRatingCount,
+      });
 
- return (
-    <div className="container-fluid landing-page">
-      <header className="navbar row align-items-center">
-        <div className="col-8 d-flex align-items-center">
-          <img
-            src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg"
-            alt="Sunset Heaven Lodge logo"
-            className="logo"
+      // Update local state
+      setAccommodations(prevAccommodations =>
+        prevAccommodations.map(accom =>
+          accom.id === id
+            ? { ...accom, ratings: newRating, ratingCounts: newRatingCount }
+            : accom
+        )
+      );
+    } catch (error) {
+      console.error('Error updating rating:', error);
+    }
+  };
+
+  const handleRating = (id, newRating) => {
+    setSelectedRatings((prevRatings) => ({
+      ...prevRatings,
+      [id]: newRating,
+    }));
+  };
+
+  const renderStars = (id) => {
+    const accommodation = accommodations.find(accommodation => accommodation.id === id);
+    const count = accommodation?.ratingCounts || 0;
+    const selectedRating = selectedRatings[id] || 0;
+
+    return (
+      <Box>
+        {[...Array(5)].map((_, index) => (
+          <span
+            key={index}
+            onClick={() => {
+              handleRating(id, index + 1);
+              submitRatingToFirestore(id, index + 1);
+            }}
+            style={{
+              cursor: 'pointer',
+              fontSize: '24px',
+              color: index < selectedRating ? 'gold' : 'gray',
+            }}
+          >
+            ★
+          </span>
+        ))}
+        <Typography variant="body2" sx={{ marginLeft: 1 }}>
+          {count} {count === 1 ? 'person rated this' : 'people rated this'}
+        </Typography>
+      </Box>
+    );
+  };
+
+  const filteredAccommodations = accommodations.filter(accommodation =>
+    accommodation.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <Box sx={{ padding: 2 }}>
+      <Typography 
+        variant="h4" 
+        gutterBottom 
+        sx={{ fontWeight: 'bold', fontStyle: 'italic', textAlign: 'center', marginY: 3 }}
+      >
+        Accommodations
+      </Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
+        <SearchIcon />
+        <TextField
+          label="Search by keyword"
+          variant="outlined"
+          fullWidth
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{ marginLeft: 2 }}
+        />
+      </Box>
+
+      <Grid container spacing={2}>
+        {filteredAccommodations.map(accommodation => (
+          <Grid item xs={12} sm={6} md={4} key={accommodation.id}>
+            <Card sx={{ maxWidth: 345, margin: 'auto', position: 'relative' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                {accommodation.images && accommodation.images.length > 0 ? (
+                  accommodation.images.slice(0, 3).map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Accommodation ${index + 1}`}
+                      style={{
+                        width: '30%',
+                        height: 'auto',
+                        cursor: 'pointer',
+                        margin: '5px',
+                        transition: 'transform 0.3s ease',
+                      }}
+                      onClick={() => toggleZoom(image)}
+                    />
+                  ))
+                ) : (
+                  <Typography variant="body2" color="text.secondary">
+                    No image available
+                  </Typography>
+                )}
+              </Box>
+              <Typography variant="h6" sx={{ position: 'absolute', top: 8, right: 8, backgroundColor: 'green', color: 'white', padding: '5px' }}>
+                Available
+              </Typography>
+              <CardContent>
+                <Typography variant="h5">{accommodation.name}</Typography>
+                <Typography variant="body2" color="text.secondary">{accommodation.description}</Typography>
+                <Typography variant="body1">Price: ${accommodation.price}</Typography>
+                <Typography variant="body1">Bed Types: {accommodation.bedTypes}</Typography>
+                <Typography variant="body1">Children Policy: {accommodation.childrenPolicy}</Typography>
+                <Typography variant="body1">Extra Bed Policy: {accommodation.extraBedPolicy}</Typography>
+                <Typography variant="body1">
+                  Utilities: {accommodation.utilities ? 
+                    Object.entries(accommodation.utilities)
+                      .filter(([key, value]) => value)
+                      .map(([key]) => `${UtilityIcons[key]} ${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}`)
+                      .join(', ') 
+                    : 'No utilities available'}
+                </Typography>
+                {accommodation.breakfastIncluded && <Typography variant="body1">Breakfast Included</Typography>}
+
+                {renderStars(accommodation.id)}
+
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  onClick={() => handleBook(accommodation)} 
+                  sx={{ marginTop: 2 }}
+                >
+                  Book Now
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      {zoomedImage && (
+        <Box 
+          onClick={() => setZoomedImage(null)} 
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <img 
+            src={zoomedImage} 
+            alt="Zoomed" 
+            style={{ maxWidth: '80%', maxHeight: '80%' }} 
           />
-          <h1 className="lodge-title ml-3">Sunset Heaven Lodge</h1>
-        </div>
-        <div className="col-4 text-right">
-          <button className="navbar-toggler" type="button" onClick={toggleDropdown}>
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          {dropdownOpen && (
-            <div className="dropdown-menu show">
-              <Link to="/register" className="dropdown-item">Register</Link>
-              <Link to="/login" className="dropdown-item">Login</Link>
-              <Link to="/about" className="dropdown-item">About</Link>
-              <Link to="/profile" className="dropdown-item">My Profile</Link>
-              <Link to="/accommodations" className="dropdown-item">Accommodation</Link>
-              <Link to="/gallery" className="dropdown-item">Gallery</Link>
-            </div>
-          )}
-        </div>
-      </header>
-
-      <section className="row">
-        <div className="col-12">
-          <div className="main-image-container">
-            <div className="row">
-              <div className="col-md-4">
-                <img
-                  src="https://i.pinimg.com/564x/3e/a7/bf/3ea7bfd8b4de66887413d3457b826f31.jpg"
-                  alt="Hotel exterior with pool at sunset"
-                  className={`main-image img-fluid ${clickedImage === 1 ? 'clicked' : ''}`}
-                  onClick={() => handleImageClick(1)}
-                />
-              </div>
-              <div className="col-md-4">
-                <img
-                  src="https://i.pinimg.com/564x/bf/8c/d5/bf8cd5a43bc750c38b46fd5522bbf43e.jpg"
-                  alt="Modern hotel lobby with seating area"
-                  className={`main-image img-fluid ${clickedImage === 2 ? 'clicked' : ''}`}
-                  onClick={() => handleImageClick(2)}
-                />
-              </div>
-              <div className="col-md-4">
-                <img
-                  src="https://i.pinimg.com/564x/8b/74/70/8b7470a891a8aae1c13e725ed37e617c.jpg"
-                  alt="Cozy hotel room with ocean view"
-                  className={`main-image img-fluid ${clickedImage === 3 ? 'clicked' : ''}`}
-                  onClick={() => handleImageClick(3)}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="row events-offers">
-        <div className="col-6 text-center">
-          <h4 className="blinking-text">Upcoming Events</h4>
-          <ul>
-            <li>Summer Musical Festival (September 14th)</li>
-            <li>Family Fun Day (September 28th)</li>
-          </ul>
-        </div>
-        <div className="col-6 text-center">
-          <h4 className="blinking-text">Special Offers</h4>
-          <p>Book 3 nights, get 1 Free!</p>
-          <p>20% off Boat Cruise for early bookings!</p>
-        </div>
-      </section>
-
-      <section className="row small-images-section">
-        {smallImageUrls.length > 0 ? (
-          smallImageUrls.map((url, index) => (
-            <div key={index} className="col-3">
-              <div className="small-image">
-                <img
-                  src={url}
-                  alt={`Room detail ${index + 1} at Sunset Heaven Lodge`}
-                  className={`img-fluid ${clickedImage === index + 4 ? 'clicked' : ''}`}
-                  onClick={() => handleImageClick(index + 4)}
-                />
-                <p className="room-details">{roomDetails[index]?.details || 'No details available'}</p>
-                <p className="price">
-                  <span className="crushed-price">{roomDetails[index]?.originalPrice || 'ZA0'}</span> 
-                  {roomDetails[index]?.price || 'ZA0'}
-                </p>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="col-12 text-center">No images available</div>
-        )}
-      </section>
-
-      <footer className="row footer">
-        <div className="col-3">
-          <div className="social-icons">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook"></i></a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-tiktok"></i></a>
-            <a href="https://chrome.com" target="_blank" rel="noopener noreferrer"><i className="fab fa-chrome"></i></a>
-          </div>
-        </div>
-        <div className="col-6 text-center">
-          <a href="https://www.google.com/maps?q=Cradlemoon+Road,+Muldersdrift+Mountains" target="_blank" rel="noopener noreferrer">
-            <i className="fas fa-map-marker-alt"></i> View on Google Maps
-          </a>
-        </div>
-        <div className="col-3 text-right">
-          <a href="mailto:sunsetlodge@gmail.com"><i className="fas fa-envelope"></i> sunsetlodge@gmail.com</a>
-          <a href="tel:0110403322"><i className="fas fa-phone"></i> 011 040 3322</a>
-        </div>
-      </footer>
-    </div>
+        </Box>
+      )}
+    </Box>
   );
 };
 
-export default LandingPage;
+export default AccommodationList;
+
+
+
+
+
+
+
 
