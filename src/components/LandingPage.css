@@ -1,217 +1,127 @@
-/* General Layout */
 .landing-page {
-  font-family: 'Arial, sans-serif';
+  background-color: #f8f9fa; /* Light background for contrast */
+  padding: 20px;
 }
 
-.header,
-.footer {
-  background-color: #e0f7fa;
-  padding: 5px;
-  margin-top: -10px; /* Moves the header up */
+.logo {
+  width: 100px; /* Adjust the size of the logo */
+  height: 100px; /* Make height equal to width for a perfect circle */
+  border-radius: 50%; /* This makes the logo round */
+  object-fit: cover; /* Ensure the image scales nicely within the round shape */
 }
+
 
 .lodge-title {
-  font-size: 48px;
-  font-weight: bold;
-  color: #ff4500;
-  font-style: italic;
-  text-align: center;  /* Centering the title */
-  margin-top: -30px;  /* Adjusted to avoid overlap */
-  margin-bottom: 1px;  /* Reducing space between the title and buttons */
-  position: relative;  /* Positioning relative to ensure z-index works */
-  z-index: 10;  /* Ensures the title appears above the main image */
+  font-size: 2.5rem;
+  color: #333; /* Darker title color */
+  margin-left: 15px;
 }
 
-/* Buttons aligned under the title */
-.header-buttons {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -15px; /* Moves buttons closer to the title */
-  position: relative; /* Positioning for better z-index control */
-  z-index: 10; /* Ensures buttons are above other elements */
+.navbar-toggler {
+  background: none; /* Remove default button styling */
+  border: none; /* Remove border */
+  cursor: pointer; /* Pointer cursor for better UX */
 }
 
-.header-buttons .btn {
-  margin-left: 5px; /* Adjusted margin for spacing */
-  padding: 5px 10px; /* Small padding for a smaller button size */
-  font-size: 12px; /* Smaller font size for buttons */
-  color: rgb(165, 141, 141);
-  border: none; /* Removes border */
-  background-color: #e0f7fa; /* Matches header background */
-  cursor: pointer; /* Changes cursor to pointer on hover */
-  border-radius: 4px; /* Rounded corners */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath stroke='black' stroke-width='3' d='M5 7h20M5 15h20M5 23h20'/%3E%3C/svg%3E"); /* Custom hamburger icon */
 }
 
-/* Hover effect for buttons */
-.header-buttons .btn:hover {
-  background-color: #b2ebf2; /* Light blue on hover */
-}
-
-/* Logo */
-.logo {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-}
-
-/* Main Image */
-.main-image-container {
-  text-align: right;
-  margin-top: 10px; /* Moves the main image up */
-  padding-right: 10px;
-  position: relative;
-  z-index: 1;  /* Ensures the image is behind the title */
-}
-
-.main-image {
-  width: 100%;
-  max-height: 350px; /* Set a maximum height for the main image */
-  object-fit: cover;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-/* Hover effect for main image */
-.main-image:hover {
-  transform: scale(1.05);
-  filter: brightness(1.1);
-}
-
-/* Click effect for main image */
-.clicked {
-  transform: scale(1.1);
-  filter: brightness(1.2);
-}
-
-/* Events and Offers Section */
-.events-offers {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.events-offers h4 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #8b4513;
-}
-
-.events-offers p,
-.events-offers ul {
-  font-size: 18px;
-}
-
-/* Blinking Text */
-.blinking-text {
-  animation: blink 1.5s linear infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-/* Small Images Section */
-.small-images-section {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap; /* Ensure images wrap on smaller screens */
-}
-
-.small-image {
-  text-align: center;
-  font-size: 14px;
-  margin-bottom: 20px; /* Space between rows of small images */
-}
-
-.small-image img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 15px;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-/* Hover effect for small images */
-.small-image img:hover {
-  transform: scale(1.05);
-  filter: brightness(1.1);
-}
-
-/* Click effect for small images */
-.clicked-small {
-  transform: scale(1.1);
-  filter: brightness(1.2);
-}
-
-.room-details {
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.price {
-  font-size: 16px;
-  color: #d2691e;
-  margin-top: 5px;
-}
-
-.crushed-price {
-  text-decoration: line-through;
-  color: red;
-}
-
-/* Footer */
-.footer {
-  background-color: #e0f7fa;
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.social-icons a {
-  font-size: 20px;
-  color: #333;
-  margin: 0 10px;
-}
-
-.social-icons a:hover {
-  color: #ff4500;
-}
-
-.footer a {
-  color: #ff4500;
-  display: block;
-  margin-top: 5px;
-}
-
-.footer a:hover {
-  color: #ff6347;
-}
-
-/* Hamburger Menu Styles */
 .dropdown-menu {
-  position: absolute;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  z-index: 1000;
-  display: none; /* Initially hidden */
-}
-
-.header-buttons .btn:hover + .dropdown-menu {
-  display: block; /* Show on button hover */
+  position: absolute; /* Position dropdown below the toggle button */
+  right: 0; /* Align dropdown to the right */
+  background-color: #fff; /* White background for the dropdown */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  z-index: 1000; /* Ensure dropdown appears above other content */
 }
 
 .dropdown-item {
-  padding: 8px 16px;
-  text-decoration: none;
-  color: black;
-  display: block;
+  color: #333; /* Dark text for dropdown items */
+  padding: 10px 20px; /* Padding for better spacing */
+  text-decoration: none; /* Remove underline from links */
+  display: block; /* Block display for full-width clickable area */
 }
 
 .dropdown-item:hover {
-  background-color: #f1f1f1;
+  background-color: #f8f9fa; /* Highlight on hover */
 }
+
+.main-image {
+  width: 100%; /* Ensure it scales to fit the container */
+  height: 300px; /* Set a medium fixed height */
+  object-fit: cover; /* Ensure the image scales properly without distortion */
+  border-radius: 10px; /* Optional: Add slight rounded corners */
+}
+
+.main-image-container {
+  margin-top: 30px; /* Adds space above the main images */
+}
+
+.main-image {
+  cursor: pointer; /* Pointer cursor for image clickability */
+  transition: transform 0.3s; /* Smooth scaling on hover */
+}
+
+.main-image.clicked {
+  transform: scale(1.05); /* Scale up the image when clicked */
+}
+
+.events-offers {
+  margin: 20px 0; /* Spacing between sections */
+}
+
+.blinking-text {
+  animation: blinking 1.5s infinite;
+  color: #654321; /* Dark brown color */
+}
+
+@keyframes blinking {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+
+.small-image img {
+  width: 100%; /* Make the image fill the container */
+  height: 200px; /* Set a fixed height for consistency */
+  object-fit: cover; /* Ensures the image maintains aspect ratio without distortion */
+  border-radius: 10px; /* Optional: Add rounded corners if desired */
+}
+
+
+.small-image {
+  text-align: center; /* Center small images */
+}
+
+.room-details {
+  font-size: 0.9rem; /* Smaller font for details */
+}
+
+.price {
+  font-weight: bold; /* Bold price */
+}
+
+.crushed-price {
+  text-decoration: line-through; /* Strikethrough for original price */
+  color: red; /* Red color for the original price */
+}
+
+.footer {
+  margin-top: 20px; /* Spacing above footer */
+  padding: 10px 0; /* Padding for footer */
+  background-color: #343a40; /* Dark footer background */
+  color: white; /* White text in footer */
+}
+
+.footer a {
+  color: white; /* White links */
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Underline on hover for links */
+}
+
 
 
 /* Responsive Adjustments */

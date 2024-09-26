@@ -8,6 +8,7 @@ import './LandingPage.css';
 const LandingPage = () => {
   const [clickedImage, setClickedImage] = useState(null);
   const [smallImageUrls, setSmallImageUrls] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown menu
 
   useEffect(() => {
     const loadImages = async () => {
@@ -35,6 +36,10 @@ const LandingPage = () => {
     setClickedImage(imageIndex);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen); // Toggle dropdown state
+  };
+
   // Room details array
   const roomDetails = [
     { details: '2 Adults | Breakfast & Dinner', price: 'ZA950', originalPrice: 'ZA1200' },
@@ -54,13 +59,23 @@ const LandingPage = () => {
           />
           <h1 className="lodge-title ml-3">Sunset Heaven Lodge</h1>
         </div>
-        <div className="col-6 text-right header-buttons">
-          <Link to="/register" className="btn btn-secondary mx-1">Register</Link>
-          <Link to="/login" className="btn btn-secondary mx-1">Login</Link>
-          <Link to="/about" className="btn btn-secondary mx-1">About</Link>
-          <Link to="/profile" className="btn btn-secondary mx-1">My Profile</Link>
-          <Link to="/accommodations" className="btn btn-secondary mx-1">Accommodation</Link>
-          <Link to="/gallery" className="btn btn-secondary mx-1">Gallery</Link>
+        <div className="col-6 text-right">
+          {/* Hamburger icon */}
+          <button className="navbar-toggler" type="button" onClick={toggleDropdown}>
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          {/* Dropdown menu */}
+          {dropdownOpen && (
+            <div className="dropdown-menu show">
+              <Link to="/register" className="dropdown-item">Register</Link>
+              <Link to="/login" className="dropdown-item">Login</Link>
+              <Link to="/about" className="dropdown-item">About</Link>
+              <Link to="/profile" className="dropdown-item">My Profile</Link>
+              <Link to="/accommodations" className="dropdown-item">Accommodation</Link>
+              <Link to="/gallery" className="dropdown-item">Gallery</Link>
+            </div>
+          )}
         </div>
       </header>
 
@@ -159,9 +174,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-
-
- 
-
- 
