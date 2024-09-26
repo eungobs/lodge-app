@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, Typography, Button, Grid, Box } from '@mui/material';
+import { Card, CardContent, Typography, Button, Grid, Box, TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const UtilityIcons = {
   wifi: '📶',
@@ -22,9 +23,11 @@ const UtilityIcons = {
 
 const AccommodationList = () => {
   const [accommodations, setAccommodations] = useState([]);
+  const [filteredAccommodations, setFilteredAccommodations] = useState([]); // Filtered list for search
   const [ratings, setRatings] = useState({}); // Store ratings
   const [ratingCounts, setRatingCounts] = useState({}); // Store rating counts
   const [zoomedImage, setZoomedImage] = useState(null); // Tracks zoomed image
+  const [searchTerm, setSearchTerm] = useState(''); // Search term state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +39,7 @@ const AccommodationList = () => {
         ...doc.data(),
       }));
       setAccommodations(accommodationsList);
+      setFilteredAccommodations(accommodationsList); // Initialize with full list
     };
 
     fetchAccommodations();
@@ -90,6 +94,22 @@ const AccommodationList = () => {
     );
   };
 
+  // Handle search input and filter accommodations
+  const handleSearch = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    setSearchTerm(searchValue);
+
+    const filtered = accommodations.filter(accommodation => {
+      // Safely check if name and description exist before calling toLowerCase
+      const name = accommodation.name ? accommodation.name.toLowerCase() : '';
+      const description = accommodation.description ? accommodation.description.toLowerCase() : '';
+
+      return name.includes(searchValue) || description.includes(searchValue);
+    });
+
+    setFilteredAccommodations(filtered);
+  };
+
   return (
     <Box sx={{ padding: 2 }}>
       <Typography 
@@ -99,8 +119,27 @@ const AccommodationList = () => {
       >
         Accommodations
       </Typography>
+
+      {/* Search input */}
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 3 }}>
+        <TextField
+          variant="outlined"
+          placeholder="Search by room name or description..."
+          value={searchTerm}
+          onChange={handleSearch}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ width: '50%' }}
+        />
+      </Box>
+
       <Grid container spacing={2}>
-        {accommodations.map(accommodation => (
+        {filteredAccommodations.map(accommodation => (
           <Grid item xs={12} sm={6} md={4} key={accommodation.id}>
             <Card sx={{ maxWidth: 345, margin: 'auto', position: 'relative' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -196,7 +235,4 @@ const AccommodationList = () => {
 };
 
 export default AccommodationList;
-
-
-
 
