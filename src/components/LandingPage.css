@@ -9,6 +9,7 @@
   border-radius: 50%; /* This makes the logo round */
   object-fit: cover; /* Ensure the image scales nicely within the round shape */
 }
+
 .navbar {
   padding: 10px 0;
   background-color: #fff;
@@ -51,24 +52,22 @@
   background-color: #f8f9fa; /* Highlight on hover */
 }
 
+.main-image-container {
+  margin-top: 30px; /* Adds space above the main images */
+}
+
+/* Hover effect for main images */
 .main-image {
   width: 100%; /* Ensure it scales to fit the container */
   height: 300px; /* Set a medium fixed height */
   object-fit: cover; /* Ensure the image scales properly without distortion */
   border-radius: 10px; /* Optional: Add slight rounded corners */
-}
-
-.main-image-container {
-  margin-top: 30px; /* Adds space above the main images */
-}
-
-.main-image {
   cursor: pointer; /* Pointer cursor for image clickability */
-  transition: transform 0.3s; /* Smooth scaling on hover */
+  transition: transform 0.3s ease-in-out; /* Smooth scaling on hover */
 }
 
-.main-image.clicked {
-  transform: scale(1.05); /* Scale up the image when clicked */
+.main-image:hover {
+  transform: scale(1.1); /* Scale up the image slightly on hover */
 }
 
 .events-offers {
@@ -86,14 +85,18 @@
   100% { opacity: 1; }
 }
 
-
+/* Hover effect for small images */
 .small-image img {
   width: 100%; /* Make the image fill the container */
   height: 200px; /* Set a fixed height for consistency */
   object-fit: cover; /* Ensures the image maintains aspect ratio without distortion */
   border-radius: 10px; /* Optional: Add rounded corners if desired */
+  transition: transform 0.3s ease-in-out; /* Smooth scaling on hover */
 }
 
+.small-image img:hover {
+  transform: scale(1.1); /* Scale up the image slightly on hover */
+}
 
 .small-image {
   text-align: center; /* Center small images */
@@ -126,8 +129,6 @@
 .footer a:hover {
   text-decoration: underline; /* Underline on hover for links */
 }
-
-
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
