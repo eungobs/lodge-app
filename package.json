@@ -27,13 +27,12 @@
     "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
-    "sunset-haven-lodge": "file:",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "build:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch"
   },
@@ -60,6 +59,4 @@
     "postcss": "^8.4.44",
     "tailwindcss": "^3.4.12"
   }
-}
-
-
+} 
