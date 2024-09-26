@@ -48,10 +48,10 @@ const LandingPage = () => {
     { details: 'Sharing (4 People) | Breakfast & Dinner', price: 'ZA920', originalPrice: 'ZA1400' }
   ];
 
-  return (
+ return (
     <div className="container-fluid landing-page">
-      <header className="row align-items-center">
-        <div className="col-6 text-left d-flex align-items-center">
+      <header className="navbar row align-items-center">
+        <div className="col-8 d-flex align-items-center">
           <img
             src="https://i.pinimg.com/564x/d2/c1/36/d2c136b481507a78ad8eee3933a6026d.jpg"
             alt="Sunset Heaven Lodge logo"
@@ -59,13 +59,10 @@ const LandingPage = () => {
           />
           <h1 className="lodge-title ml-3">Sunset Heaven Lodge</h1>
         </div>
-        <div className="col-6 text-right">
-          {/* Hamburger icon */}
+        <div className="col-4 text-right">
           <button className="navbar-toggler" type="button" onClick={toggleDropdown}>
             <span className="navbar-toggler-icon"></span>
           </button>
-
-          {/* Dropdown menu */}
           {dropdownOpen && (
             <div className="dropdown-menu show">
               <Link to="/register" className="dropdown-item">Register</Link>
