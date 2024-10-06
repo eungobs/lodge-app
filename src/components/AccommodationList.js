@@ -26,9 +26,10 @@ const AccommodationList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRatings, setSelectedRatings] = useState({});
   const [zoomedImage, setZoomedImage] = useState(null);
-  const [openModal, setOpenModal] = useState(false); // State for the modal
-  const [selectedAccommodation, setSelectedAccommodation] = useState(null); // Selected accommodation for review
-  const [reviews, setReviews] = useState([]); // State for storing reviews
+  const [openModal, setOpenModal] = useState(false); 
+  const [selectedAccommodation, setSelectedAccommodation] = useState(null); 
+  const [openReviewsModal, setOpenReviewsModal] = useState(false); // New state for review modal
+  const [currentReviews, setCurrentReviews] = useState([]); // Store reviews for the current accommodation
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,7 +46,6 @@ const AccommodationList = () => {
     fetchAccommodations();
   }, []);
 
-  // Fetch reviews for a specific accommodation
   const fetchReviews = async (accommodationId) => {
     const reviewsCollection = collection(db, 'accommodationRoom', accommodationId, 'reviews');
     const reviewsSnapshot = await getDocs(reviewsCollection);
@@ -74,7 +74,6 @@ const AccommodationList = () => {
         ratingCounts: newRatingCount,
       });
 
-      // Update local state
       setAccommodations(prevAccommodations =>
         prevAccommodations.map(accom =>
           accom.id === id
@@ -117,7 +116,14 @@ const AccommodationList = () => {
             ★
           </span>
         ))}
-        <Typography variant="body2" sx={{ marginLeft: 1 }}>
+        <Typography 
+          variant="body2" 
+          sx={{ marginLeft: 1, cursor: 'pointer', color: 'blue' }} 
+          onClick={() => {
+            setOpenReviewsModal(true);
+            fetchReviews(accommodation.id).then(setCurrentReviews);
+          }}
+        >
           {count} {count === 1 ? 'person rated this' : 'people rated this'}
         </Typography>
       </Box>
@@ -128,7 +134,6 @@ const AccommodationList = () => {
     accommodation.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // New function to handle review submission
   const handleReviewSubmit = async (event) => {
     event.preventDefault();
     const { name, roomRating, lodgeRating, serviceRating, recommendation } = event.target.elements;
@@ -143,18 +148,22 @@ const AccommodationList = () => {
         dateReviewed: new Date(),
       });
       setOpenModal(false);
-      fetchReviews(selectedAccommodation.id).then((reviewsList) => setReviews(reviewsList));
+      fetchReviews(selectedAccommodation.id).then(setCurrentReviews); // Update reviews directly
     }
   };
 
   const handleRateMeClick = (accommodation) => {
     setSelectedAccommodation(accommodation);
-    fetchReviews(accommodation.id).then((reviewsList) => setReviews(reviewsList));
+    fetchReviews(accommodation.id).then(setCurrentReviews);
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const handleCloseReviewsModal = () => {
+    setOpenReviewsModal(false);
   };
 
   return (
@@ -224,121 +233,124 @@ const AccommodationList = () => {
                       .join(', ') 
                     : 'No utilities'}
                 </Typography>
-              </CardContent>
-              <Button onClick={() => handleBook(accommodation)} variant="contained" sx={{ margin: 1 }}>Book</Button>
-              <Button onClick={() => handleRateMeClick(accommodation)} variant="contained" sx={{ margin: 1 }}>Rate Me</Button>
-              <Box sx={{ padding: 2 }}>
                 {renderStars(accommodation.id)}
-              </Box>
+                <Button variant="contained" color="primary" onClick={() => handleBook(accommodation)}>
+                  Book Now
+                </Button>
+                <Button variant="outlined" onClick={() => handleRateMeClick(accommodation)}>
+                  Rate Me
+                </Button>
+              </CardContent>
             </Card>
           </Grid>
         ))}
       </Grid>
 
-      {/* Modal for Review Form */}
-      <Modal open={openModal} onClose={handleCloseModal}>
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4,
-            width: '400px',
-            margin: 'auto',
-            marginTop: '20vh',
+      {/* Reviews Modal */}
+      <Modal open={openReviewsModal} onClose={handleCloseReviewsModal}>
+        <Box 
+          sx={{ 
+            padding: 2, 
+            backgroundColor: 'white', 
+            maxWidth: 600, 
+            margin: 'auto', 
+            marginTop: '15%', 
+            borderRadius: 2 
           }}
         >
-          <Typography variant="h6" component="h2">
-            Review {selectedAccommodation?.name}
-          </Typography>
-          <form onSubmit={handleReviewSubmit}>
-            <TextField
-              name="name"
-              label="Your Name"
-              variant="outlined"
-              fullWidth
-              required
-              margin="normal"
-            />
-            <TextField
-              name="roomRating"
-              label="Room Rating (1-5)"
-              type="number"
-              inputProps={{ min: 1, max: 5 }}
-              variant="outlined"
-              fullWidth
-              required
-              margin="normal"
-            />
-            <TextField
-              name="lodgeRating"
-              label="Lodge Rating (1-5)"
-              type="number"
-              inputProps={{ min: 1, max: 5 }}
-              variant="outlined"
-              fullWidth
-              required
-              margin="normal"
-            />
-            <TextField
-              name="serviceRating"
-              label="Service Rating (1-5)"
-              type="number"
-              inputProps={{ min: 1, max: 5 }}
-              variant="outlined"
-              fullWidth
-              required
-              margin="normal"
-            />
-            <TextField
-              name="recommendation"
-              label="Recommendations"
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={4}
-              margin="normal"
-            />
-            <Button type="submit" variant="contained">Submit Review</Button>
-          </form>
-          {/* Display reviews */}
-          <Typography variant="h6" component="h3" sx={{ marginTop: 2 }}>
-            Reviews:
-          </Typography>
-          {reviews.map(review => (
-            <Box key={review.id} sx={{ border: '1px solid #ccc', padding: 1, marginTop: 1 }}>
-              <Typography variant="body2"><strong>{review.name}</strong> - {new Date(review.dateReviewed.seconds * 1000).toLocaleDateString()}</Typography>
-              <Typography variant="body2">Room Rating: {review.roomRating} | Lodge Rating: {review.lodgeRating} | Service Rating: {review.serviceRating}</Typography>
-              <Typography variant="body2">Recommendation: {review.recommendation}</Typography>
-            </Box>
-          ))}
+          <Typography variant="h6" sx={{ marginBottom: 2 }}>Reviews</Typography>
+          {currentReviews.length > 0 ? (
+            currentReviews.map(review => (
+              <Box key={review.id} sx={{ marginBottom: 2, padding: 1, border: '1px solid #ccc', borderRadius: 1 }}>
+                <Typography variant="subtitle1">{review.name}</Typography>
+                <Typography variant="body2">Room Rating: {review.roomRating}</Typography>
+                <Typography variant="body2">Lodge Rating: {review.lodgeRating}</Typography>
+                <Typography variant="body2">Service Rating: {review.serviceRating}</Typography>
+                <Typography variant="body2">Recommendation: {review.recommendation}</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {new Date(review.dateReviewed.toDate()).toLocaleDateString()}
+                </Typography>
+              </Box>
+            ))
+          ) : (
+            <Typography variant="body2">No reviews available for this accommodation.</Typography>
+          )}
+          <Button variant="outlined" onClick={handleCloseReviewsModal} sx={{ marginTop: 2 }}>Close</Button>
         </Box>
       </Modal>
 
-      {/* Image Zoom Popup */}
-      {zoomedImage && (
-        <Box
-          onClick={() => setZoomedImage(null)}
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.8)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000,
+      {/* Review Submission Modal */}
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Box 
+          sx={{ 
+            padding: 2, 
+            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Dark background
+            maxWidth: 400, // Smaller width
+            margin: 'auto', 
+            marginTop: '15%', 
+            borderRadius: 2, 
+            color: 'white' // Change text color to white for contrast
           }}
         >
-          <img src={zoomedImage} alt="Zoomed" style={{ maxWidth: '90%', maxHeight: '90%' }} />
+          <Typography variant="h6" sx={{ marginBottom: 2 }}>Submit Your Review</Typography>
+          <form onSubmit={handleReviewSubmit}>
+            <TextField 
+              name="name" 
+              label="Your Name" 
+              variant="outlined" 
+              fullWidth 
+              required 
+              sx={{ marginBottom: 1, backgroundColor: 'white' }} // Background for input
+            />
+            <TextField 
+              name="roomRating" 
+              label="Room Rating (1-5)" 
+              variant="outlined" 
+              fullWidth 
+              required 
+              type="number" 
+              inputProps={{ min: 1, max: 5 }} 
+              sx={{ marginBottom: 1, backgroundColor: 'white' }} // Background for input
+            />
+            <TextField 
+              name="lodgeRating" 
+              label="Lodge Rating (1-5)" 
+              variant="outlined" 
+              fullWidth 
+              required 
+              type="number" 
+              inputProps={{ min: 1, max: 5 }} 
+              sx={{ marginBottom: 1, backgroundColor: 'white' }} // Background for input
+            />
+            <TextField 
+              name="serviceRating" 
+              label="Service Rating (1-5)" 
+              variant="outlined" 
+              fullWidth 
+              required 
+              type="number" 
+              inputProps={{ min: 1, max: 5 }} 
+              sx={{ marginBottom: 1, backgroundColor: 'white' }} // Background for input
+            />
+            <TextField 
+              name="recommendation" 
+              label="Would you recommend this?" 
+              variant="outlined" 
+              fullWidth 
+              multiline 
+              rows={4} 
+              required 
+              sx={{ marginBottom: 1, backgroundColor: 'white' }} // Background for input
+            />
+            <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 1 }}>Submit Review</Button>
+          </form>
+          <Button variant="outlined" onClick={handleCloseModal} sx={{ marginTop: 2 }}>Close</Button>
         </Box>
-      )}
+      </Modal>
     </Box>
   );
 };
 
-export default AccommodationList; 
+export default AccommodationList;
 
 
