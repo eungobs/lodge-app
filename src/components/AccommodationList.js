@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, Typography, Button, Grid, Box, TextField, InputAdornment } from '@mui/material';
+import { Card, CardContent, Typography, Button, Grid, Box, TextField, Modal } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 const UtilityIcons = {
@@ -23,11 +23,12 @@ const UtilityIcons = {
 
 const AccommodationList = () => {
   const [accommodations, setAccommodations] = useState([]);
-  const [filteredAccommodations, setFilteredAccommodations] = useState([]); // Filtered list for search
-  const [ratings, setRatings] = useState({}); // Store ratings
-  const [ratingCounts, setRatingCounts] = useState({}); // Store rating counts
-  const [zoomedImage, setZoomedImage] = useState(null); // Tracks zoomed image
-  const [searchTerm, setSearchTerm] = useState(''); // Search term state
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRatings, setSelectedRatings] = useState({});
+  const [zoomedImage, setZoomedImage] = useState(null);
+  const [openModal, setOpenModal] = useState(false); // State for the modal
+  const [selectedAccommodation, setSelectedAccommodation] = useState(null); // Selected accommodation for review
+  const [reviews, setReviews] = useState([]); // State for storing reviews
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,75 +40,121 @@ const AccommodationList = () => {
         ...doc.data(),
       }));
       setAccommodations(accommodationsList);
-      setFilteredAccommodations(accommodationsList); // Initialize with full list
     };
 
     fetchAccommodations();
   }, []);
+
+  // Fetch reviews for a specific accommodation
+  const fetchReviews = async (accommodationId) => {
+    const reviewsCollection = collection(db, 'accommodationRoom', accommodationId, 'reviews');
+    const reviewsSnapshot = await getDocs(reviewsCollection);
+    const reviewsList = reviewsSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return reviewsList;
+  };
 
   const handleBook = (accommodation) => {
     navigate(`/book/${accommodation.id}`, { state: { amount: accommodation.price, name: accommodation.name } });
   };
 
   const toggleZoom = (imageSrc) => {
-    if (zoomedImage === imageSrc) {
-      setZoomedImage(null); // Zoom out if already zoomed
-    } else {
-      setZoomedImage(imageSrc); // Zoom in
+    setZoomedImage(imageSrc === zoomedImage ? null : imageSrc);
+  };
+
+  const submitRatingToFirestore = async (id, newRating) => {
+    try {
+      const accommodationRef = doc(db, 'accommodationRoom', id);
+      const accommodation = accommodations.find(accommodation => accommodation.id === id);
+      const newRatingCount = (accommodation.ratingCounts || 0) + 1;
+      await updateDoc(accommodationRef, {
+        ratings: newRating,
+        ratingCounts: newRatingCount,
+      });
+
+      // Update local state
+      setAccommodations(prevAccommodations =>
+        prevAccommodations.map(accom =>
+          accom.id === id
+            ? { ...accom, ratings: newRating, ratingCounts: newRatingCount }
+            : accom
+        )
+      );
+    } catch (error) {
+      console.error('Error updating rating:', error);
     }
   };
 
-  // Handle star rating click
   const handleRating = (id, newRating) => {
-    setRatings((prevRatings) => ({
+    setSelectedRatings((prevRatings) => ({
       ...prevRatings,
       [id]: newRating,
-    }));
-    setRatingCounts((prevCounts) => ({
-      ...prevCounts,
-      [id]: (prevCounts[id] || 0) + 1, // Increment count for the accommodation
     }));
   };
 
   const renderStars = (id) => {
-    const rating = ratings[id] || 0;
-    const count = ratingCounts[id] || 0;
+    const accommodation = accommodations.find(accommodation => accommodation.id === id);
+    const count = accommodation?.ratingCounts || 0;
+    const selectedRating = selectedRatings[id] || 0;
+
     return (
       <Box>
         {[...Array(5)].map((_, index) => (
           <span
             key={index}
-            onClick={() => handleRating(id, index + 1)}
+            onClick={() => {
+              handleRating(id, index + 1);
+              submitRatingToFirestore(id, index + 1);
+            }}
             style={{
               cursor: 'pointer',
               fontSize: '24px',
-              color: index < rating ? 'gold' : 'gray',
+              color: index < selectedRating ? 'gold' : 'gray',
             }}
           >
             ★
           </span>
         ))}
         <Typography variant="body2" sx={{ marginLeft: 1 }}>
-          {count} {count === 1 ? 'rating' : 'ratings'}
+          {count} {count === 1 ? 'person rated this' : 'people rated this'}
         </Typography>
       </Box>
     );
   };
 
-  // Handle search input and filter accommodations
-  const handleSearch = (event) => {
-    const searchValue = event.target.value.toLowerCase();
-    setSearchTerm(searchValue);
+  const filteredAccommodations = accommodations.filter(accommodation =>
+    accommodation.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-    const filtered = accommodations.filter(accommodation => {
-      // Safely check if name and description exist before calling toLowerCase
-      const name = accommodation.name ? accommodation.name.toLowerCase() : '';
-      const description = accommodation.description ? accommodation.description.toLowerCase() : '';
+  // New function to handle review submission
+  const handleReviewSubmit = async (event) => {
+    event.preventDefault();
+    const { name, roomRating, lodgeRating, serviceRating, recommendation } = event.target.elements;
+    if (selectedAccommodation) {
+      const reviewsCollection = collection(db, 'accommodationRoom', selectedAccommodation.id, 'reviews');
+      await addDoc(reviewsCollection, {
+        name: name.value,
+        roomRating: parseInt(roomRating.value),
+        lodgeRating: parseInt(lodgeRating.value),
+        serviceRating: parseInt(serviceRating.value),
+        recommendation: recommendation.value,
+        dateReviewed: new Date(),
+      });
+      setOpenModal(false);
+      fetchReviews(selectedAccommodation.id).then((reviewsList) => setReviews(reviewsList));
+    }
+  };
 
-      return name.includes(searchValue) || description.includes(searchValue);
-    });
+  const handleRateMeClick = (accommodation) => {
+    setSelectedAccommodation(accommodation);
+    fetchReviews(accommodation.id).then((reviewsList) => setReviews(reviewsList));
+    setOpenModal(true);
+  };
 
-    setFilteredAccommodations(filtered);
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -120,21 +167,15 @@ const AccommodationList = () => {
         Accommodations
       </Typography>
 
-      {/* Search input */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 3 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
+        <SearchIcon />
         <TextField
+          label="Search by keyword"
           variant="outlined"
-          placeholder="Search by room name or description..."
+          fullWidth
           value={searchTerm}
-          onChange={handleSearch}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-          sx={{ width: '50%' }}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{ marginLeft: 2 }}
         />
       </Box>
 
@@ -156,7 +197,7 @@ const AccommodationList = () => {
                         margin: '5px',
                         transition: 'transform 0.3s ease',
                       }}
-                      onClick={() => toggleZoom(image)} // Toggle zoom on click
+                      onClick={() => toggleZoom(image)}
                     />
                   ))
                 ) : (
@@ -181,58 +222,123 @@ const AccommodationList = () => {
                       .filter(([key, value]) => value)
                       .map(([key]) => `${UtilityIcons[key]} ${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}`)
                       .join(', ') 
-                    : 'No utilities available'}
+                    : 'No utilities'}
                 </Typography>
-                {accommodation.breakfastIncluded && <Typography variant="body1">Breakfast Included</Typography>}
-
-                {/* Add Ratings */}
-                {renderStars(accommodation.id)}
-
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  onClick={() => handleBook(accommodation)} 
-                  sx={{ marginTop: 2 }}
-                >
-                  Book Now
-                </Button>
               </CardContent>
+              <Button onClick={() => handleBook(accommodation)} variant="contained" sx={{ margin: 1 }}>Book</Button>
+              <Button onClick={() => handleRateMeClick(accommodation)} variant="contained" sx={{ margin: 1 }}>Rate Me</Button>
+              <Box sx={{ padding: 2 }}>
+                {renderStars(accommodation.id)}
+              </Box>
             </Card>
           </Grid>
         ))}
       </Grid>
 
-      {/* Zoomed Image Overlay */}
+      {/* Modal for Review Form */}
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+            width: '400px',
+            margin: 'auto',
+            marginTop: '20vh',
+          }}
+        >
+          <Typography variant="h6" component="h2">
+            Review {selectedAccommodation?.name}
+          </Typography>
+          <form onSubmit={handleReviewSubmit}>
+            <TextField
+              name="name"
+              label="Your Name"
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+            />
+            <TextField
+              name="roomRating"
+              label="Room Rating (1-5)"
+              type="number"
+              inputProps={{ min: 1, max: 5 }}
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+            />
+            <TextField
+              name="lodgeRating"
+              label="Lodge Rating (1-5)"
+              type="number"
+              inputProps={{ min: 1, max: 5 }}
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+            />
+            <TextField
+              name="serviceRating"
+              label="Service Rating (1-5)"
+              type="number"
+              inputProps={{ min: 1, max: 5 }}
+              variant="outlined"
+              fullWidth
+              required
+              margin="normal"
+            />
+            <TextField
+              name="recommendation"
+              label="Recommendations"
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={4}
+              margin="normal"
+            />
+            <Button type="submit" variant="contained">Submit Review</Button>
+          </form>
+          {/* Display reviews */}
+          <Typography variant="h6" component="h3" sx={{ marginTop: 2 }}>
+            Reviews:
+          </Typography>
+          {reviews.map(review => (
+            <Box key={review.id} sx={{ border: '1px solid #ccc', padding: 1, marginTop: 1 }}>
+              <Typography variant="body2"><strong>{review.name}</strong> - {new Date(review.dateReviewed.seconds * 1000).toLocaleDateString()}</Typography>
+              <Typography variant="body2">Room Rating: {review.roomRating} | Lodge Rating: {review.lodgeRating} | Service Rating: {review.serviceRating}</Typography>
+              <Typography variant="body2">Recommendation: {review.recommendation}</Typography>
+            </Box>
+          ))}
+        </Box>
+      </Modal>
+
+      {/* Image Zoom Popup */}
       {zoomedImage && (
         <Box
+          onClick={() => setZoomedImage(null)}
           sx={{
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.8)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             zIndex: 1000,
           }}
-          onClick={() => toggleZoom(null)} // Close zoomed image when clicked
         >
-          <img
-            src={zoomedImage}
-            alt="Zoomed"
-            style={{
-              maxWidth: '90%',
-              maxHeight: '90%',
-              cursor: 'pointer',
-            }}
-          />
+          <img src={zoomedImage} alt="Zoomed" style={{ maxWidth: '90%', maxHeight: '90%' }} />
         </Box>
       )}
     </Box>
   );
 };
 
-export default AccommodationList;
+export default AccommodationList; 
+
 
