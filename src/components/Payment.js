@@ -12,7 +12,20 @@ const Payment = () => {
   const dispatch = useDispatch();
   const { paymentStatus, error } = useSelector((state) => state.payment);
   const [paymentMethod, setPaymentMethod] = useState('paypal');
-  const [amount, setAmount] = useState(location.state?.bookingDetails?.totalAmount || '10.00'); // Fetching correct amount
+  const [amount, setAmount] = useState(''); // Dynamic amount calculated
+
+  // Calculate total amount based on the number of days
+  useEffect(() => {
+    const bookingDetails = location.state?.bookingDetails;
+    if (bookingDetails) {
+      const accommodationPrice = bookingDetails.totalAmount; // Assume this is the price per day
+      const checkInDate = new Date(bookingDetails.checkInDate);
+      const checkOutDate = new Date(bookingDetails.checkOutDate);
+      const numberOfDays = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)); // Calculate number of days
+      const totalAmount = accommodationPrice * numberOfDays; // Calculate total amount
+      setAmount(totalAmount.toFixed(2)); // Set amount in ZAR
+    }
+  }, [location.state]);
 
   // Handle Payment logic
   const handlePayment = useCallback(async (details) => {
@@ -89,11 +102,11 @@ const Payment = () => {
       {paymentStatus === 'succeeded' && <Alert variant="success">Payment successful! We can't wait to host you at our lodge.</Alert>}
       <Form>
         <Form.Group controlId="formAmount">
-          <Form.Label>Amount</Form.Label>
+          <Form.Label>Amount (ZAR)</Form.Label>
           <Form.Control
             type="number"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)} // Allow user to change amount
+            readOnly // Make amount read-only since it's calculated
           />
         </Form.Group>
         <Form.Group controlId="formPaymentMethod">
@@ -113,6 +126,3 @@ const Payment = () => {
 };
 
 export default Payment;
-
-
-
