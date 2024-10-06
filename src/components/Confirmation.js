@@ -1,15 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Card } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useSelector } from 'react-redux';
+import { db } from "../firebase"; // Import Firestore
+import { doc, setDoc } from "firebase/firestore"; // Import necessary Firestore functions
 
 const Confirmation = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Create a navigate function
   const { bookingDetails, bookingId } = location.state || {};
-
   const { user } = useSelector((state) => state.user);
 
   console.log('Location state:', location.state); // Debug log
+
+  useEffect(() => {
+    const saveBookingToFirestore = async () => {
+      if (bookingDetails && bookingId && user) {
+        // Create a receipt object
+        const receiptData = {
+          bookingId,
+          name: bookingDetails.name,
+          email: bookingDetails.email,
+          accommodationId: bookingDetails.accommodationId,
+          checkInDate: bookingDetails.checkInDate,
+          checkOutDate: bookingDetails.checkOutDate,
+          totalAmount: bookingDetails.totalAmount,
+          paymentMethod: bookingDetails.paymentMethod,
+          userId: user.uid, // Save the user ID for reference
+        };
+
+        // Save to Firestore under a 'receipts' collection
+        await setDoc(doc(db, "receipts", bookingId), receiptData);
+        console.log('Receipt saved to Firestore:', receiptData);
+      }
+    };
+
+    saveBookingToFirestore();
+
+    // Redirect to landing page after 3 seconds
+    const timer = setTimeout(() => {
+      navigate('/'); // Change this to your landing page route
+    }, 3000);
+
+    return () => clearTimeout(timer); // Cleanup timer on unmount
+  }, [bookingDetails, bookingId, user, navigate]);
 
   if (!bookingDetails || !bookingId) {
     return (
@@ -25,6 +59,9 @@ const Confirmation = () => {
       <Card>
         <Card.Body>
           <Card.Title>Booking Confirmation</Card.Title>
+          <Card.Text style={{ color: 'green' }}> {/* Success message */}
+            Payment Successful!
+          </Card.Text>
           <Card.Text>
             <strong>Booking ID:</strong> {bookingId}
           </Card.Text>
