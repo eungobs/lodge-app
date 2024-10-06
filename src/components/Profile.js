@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Image, Card, Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,7 @@ import './Profile.css'; // Adjust path as needed
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
+  const [receipts, setReceipts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -28,7 +29,23 @@ const Profile = () => {
       }
       setLoading(false);
     };
+
+    const fetchReceipts = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const receiptsRef = collection(db, "receipts");
+        const q = query(receiptsRef, where("userId", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        const receiptsData = [];
+        querySnapshot.forEach((doc) => {
+          receiptsData.push({ id: doc.id, ...doc.data() });
+        });
+        setReceipts(receiptsData);
+      }
+    };
+
     fetchUserData();
+    fetchReceipts();
   }, []);
 
   const handleEditProfile = () => {
@@ -116,6 +133,43 @@ const Profile = () => {
                 </div>
               </Card.Body>
             </Card>
+
+            {/* Receipts Section */}
+            <div className="mt-5">
+              <h4>Your Receipts</h4>
+              {receipts.length === 0 ? (
+                <p>No receipts found.</p>
+              ) : (
+                receipts.map((receipt) => (
+                  <Card key={receipt.id} className="mb-3">
+                    <Card.Body>
+                      <Card.Title>Booking ID: {receipt.bookingId}</Card.Title>
+                      <Card.Text>
+                        <strong>Name:</strong> {receipt.name}
+                      </Card.Text>
+                      <Card.Text>
+                        <strong>Email:</strong> {receipt.email}
+                      </Card.Text>
+                      <Card.Text>
+                        <strong>Accommodation:</strong> {receipt.accommodationId}
+                      </Card.Text>
+                      <Card.Text>
+                        <strong>Check-in Date:</strong> {new Date(receipt.checkInDate).toLocaleDateString()}
+                      </Card.Text>
+                      <Card.Text>
+                        <strong>Check-out Date:</strong> {new Date(receipt.checkOutDate).toLocaleDateString()}
+                      </Card.Text>
+                      <Card.Text>
+                        <strong>Total Amount:</strong> ${receipt.totalAmount}
+                      </Card.Text>
+                      <Card.Text>
+                        <strong>Payment Method:</strong> {receipt.paymentMethod}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                ))
+              )}
+            </div>
           </Col>
         </Row>
       </Container>
@@ -124,6 +178,7 @@ const Profile = () => {
 };
 
 export default Profile;
+
 
 
 
