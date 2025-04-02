@@ -105,4 +105,4 @@ Contributions are welcome! Please follow the standard pull request process and e
 Figma link:https://www.figma.com/design/F8cn3hGq5zNWooIwWXMB67/lodge-sckeches?node-id=54-126&t=b1DDil8UNUvNWFai-1
 
 Demo Link: https://sunsetheaven.vercel.app/
-Admin-Demo: lodge-admin.vercel.app/
+Admin-Demo: https://lodge-admin.vercel.app/
