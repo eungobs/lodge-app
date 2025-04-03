@@ -137,3 +137,121 @@
     height: 100px; /* Reduce height for very small screens */
   }
 }
+
+/* Responsive styles */
+
+/* Large desktops (1200px and above) */
+@media (min-width: 1200px) {
+  .main-image {
+    height: 300px; /* Larger height for bigger screens */
+  }
+
+  .gallery-image {
+    width: 150px; /* Larger square images on bigger screens */
+    height: 150px;
+  }
+}
+
+/* Tablets and below (max-width: 768px) */
+@media (max-width: 768px) {
+  .main-image {
+    height: 150px; /* Adjust height on smaller screens */
+  }
+
+  .gallery-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Small phones (max-width: 576px) */
+@media (max-width: 576px) {
+  .gallery-image {
+    width: 80px; /* Smaller square images on small phones */
+    height: 80px;
+  }
+}
+
+/* Extra small phones (max-width: 360px) */
+@media (max-width: 360px) {
+  .main-image {
+    height: 120px; /* Reduce height for very small screens */
+  }
+
+  .gallery-image {
+    width: 70px; /* Even smaller square images */
+    height: 70px;
+  }
+}
+
+/* Additional Media Queries for More Responsive Design */
+
+/* 1280px */
+@media (max-width: 1280px) {
+  .main-image {
+    height: 250px; /* Adjust height for medium screens */
+  }
+}
+
+/* 1024px */
+@media (max-width: 1024px) {
+  .main-image {
+    height: 200px; /* Maintain height */
+  }
+}
+
+/* 912px */
+@media (max-width: 912px) {
+  .gallery-image {
+    width: 90px; /* Adjust for smaller screens */
+    height: 90px;
+  }
+}
+
+/* 853px */
+@media (max-width: 853px) {
+  .gallery-image {
+    width: 85px; /* Further adjustment */
+    height: 85px;
+  }
+}
+
+/* 540px */
+@media (max-width: 540px) {
+  .share-button {
+    font-size: 14px; /* Smaller button text */
+    padding: 8px 12px; /* Adjust padding */
+  }
+}
+
+/* 430px */
+@media (max-width: 430px) {
+  .gallery-image {
+    width: 75px; /* Smaller square images */
+    height: 75px;
+  }
+}
+
+/* 390px */
+@media (max-width: 390px) {
+  .gallery-image {
+    width: 60px; /* Adjust for very small screens */
+    height: 60px;
+  }
+}
+
+/* 375px */
+@media (max-width: 375px) {
+  .gallery-image {
+    width: 55px; /* Further adjustment */
+    height: 55px;
+  }
+}
+
+/* 344px */
+@media (max-width: 344px) {
+  .main-image {
+    height: 100px; /* Reduce height for very small screens */
+  }
+}
+
