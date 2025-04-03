@@ -354,3 +354,6 @@ const AccommodationList = () => {
 export default AccommodationList;
 
 
+
+
+
