@@ -1,108 +1,93 @@
-Sunset Heaven Lodge
-Overview
-Sunset Heaven Lodge is a comprehensive hotel management application designed to enhance the booking experience for users and streamline operations for administrators. The application provides robust features for user authentication, accommodation management, and booking, all with a focus on intuitive design and usability.
+# Sunset Heaven Lodge
 
-Features
-User Authentication
-Firebase Authentication: Secure registration and login functionality.
-User Registration: New users can register to gain full access to all app features.
-User Profile Management: Post-registration, users can edit their profile details and delete their accounts.
-Navigation and Functionality
-Initial Registration: Upon opening the Sunset Heaven Lodge app, users will first encounter options to register.
-Register: Users must register to access full functionality including booking and payment.
-Profile Navigation: After registering, users are directed to their profile where they can:
-Edit profile details.
-Delete their account if desired.
-Access Restrictions: Users who are not registered can only view accommodation images and details. They will not have access to booking or payment features.
-Accommodation Listings
-Photo Gallery: Browse images of the hotel.
-Map Integration: View the hotel’s location on an interactive map.
-Price Details: Check the cost per night and other pricing information.
-Basic Information: Review essential details including address and star rating.
-Hotel Facilities & Policies: See a list of amenities and policies.
-Call-to-Action Button: Book or view more details about the accommodation.
-Sharing Button: Share details of accommodations with others.
-Favourites Button: Save accommodations to a favourites list.
-Booking Functionality
-Date Selection: Choose check-in and check-out dates.
-Room and Guest Details: Specify number of rooms and guests.
-Payment Integration: Process payments securely through a chosen payment gateway.
-User Profile
-View/Edit Profile: Manage personal profile information.
-View Bookings: Access details of past and upcoming bookings.
-View Favourites: Review and manage saved favourite accommodations.
+## Overview 
 
-Admin Panel
-github link: https://github.com/eungobs/lodge-admin.git
-Admin Authentication: Admins log in to access the CMS.
-CMS Login Credentials:
-Email: eungo@gmail.com
-Password: 123456
-Add Accommodations: Admins can add new accommodations with details such as room type, capacity, price, and availability.
-View Reservations: Admins can view reservation details including guest and room information.
-Manage Reservations: Approve, modify, or cancel bookings.
-Update Accommodation Details: Adjust availability, pricing, and descriptions.
-Data Storage
-Firebase Firestore/Real-time Database: Securely store accommodation listings, user data, and booking information.
-State Management
-Redux Toolkit: Efficiently manage the application's state.
-Additional Features
-Search Functionality: Find accommodations by location, price, and other filters.
-Reviews & Ratings: Leave and view reviews and ratings.
-Notifications: Receive alerts for booking confirmations, updates, and promotions.
-Security
-Data Protection: Implement security measures to protect user data and transactions.
-Scalability & Performance
-Scalable Architecture: Designed to handle extensive user and accommodation data.
-Optimized Performance: Ensures a smooth and responsive user experience.
-Compliance
-Regulations and Laws: Adheres to relevant data protection and transaction regulations.
-Responsive Design
-Cross-Device Compatibility: The application is designed to work on various devices and screen sizes.
-Technology Stack
-Frontend: React.js
-Backend: Firebase Firestore/Real-time Database
-State Management: Redux Toolkit
-Authentication: Firebase Authentication
-Payments: Paypal
-UI/UX Design: Designed using Figma
-Coding Environment: Visual Studio Code
-Testing
-For testing the payment functionality, you can use the following test card details:
+Welcome to **Sunset Heaven Lodge**! This is a comprehensive hotel management application that helps users book accommodations easily and effectively. It also makes it simpler for administrators to manage everything behind the scenes. The app focuses on being user-friendly, ensuring that both guests and admin users have a smooth experience.
 
-Card Type: VISA
-Card Number: 4032 0385 4201 3317
-Expiry Date: 09/2029
-CVC Code: Any 3-digit code
-Repository
-GitHub Repository: Sunset Heaven Lodge GitHub
-CMS Branch: ldge-admin for the content management system
-Setup and Installation
-Clone the Repository
+## Key Features 
+
+**1. User Authentication:**
+- You can register and log in securely using Firebase Authentication.
+- After you register, you can create, update, or delete your account information.
+
+**2. Accommodation Listings:**
+- Browse through a photo gallery of hotel images.
+- View the hotel’s location on an interactive map.
+- Check price details for rooms and review essential hotel information, such as address and star rating.
+- Explore hotel amenities and policies, and save your favorite accommodations to revisit later.
+
+**3. Booking Functionality:**
+- Select your check-in and check-out dates.
+- Specify the number of rooms and guests for your booking.
+- Make payments securely through the app.
+
+**4. User Profile Management:**
+- Edit your profile information anytime.
+- View your past and upcoming bookings and manage your favorite accommodations.
+
+**5. Admin Panel:**
+- Admins can log in to manage accommodations, view reservations, and modify or cancel bookings.
+
+## How to Clone the Repository
+
+To get started with the app on your own computer, you need to clone the repository. This means that you're going to make a copy of the app's files. Here's how to do it:
+
+1. **Open Your Terminal**: This is where you'll type in your commands.
+2. **Clone the Repository**: Type the following command:
+
+   git clone https://github.com/eungobs/sunset-heaven-lodge.git
+
+   This will download all the files to your computer.
+
+3. **Navigate to the Project Directory**: Change your directory into the project folder by typing:
+ 
+   cd sunset-heaven-lodge
+  
+
+## Installation Steps
+
+Next, you need to install some necessary tools to run the app:
+
+1. **Install Dependencies**: This sets up everything that the app needs to work. Type:
+
+   npm install
+
+   This command will download and install the necessary packages required by the application.
+
+2. **Set Up Firebase**: 
+   - Create an account on Firebase and set up a new project. This step is important for managing user accounts and storing data securely.
+   - Configure Firebase Authentication and Firestore in your project.
+   - You’ll need to add the Firebase configuration details to the app after creating the project.
+
+3. **Run the Application**: You can now run the app on your computer! Type:
+   npm start
+
+   This command will start the application, and you should see it running in your web browser.
+
+4. **Build for Production**: If you want to prepare the app for others to use, you can build it for production by running:
+ 
+   npm run build
 
 
-git clone https://github.com/eungobs/sunset-heaven-lodge.git
-cd sunset-heaven-lodge
-Install Dependencies
+## How to Use the App
 
+Once the app is running, here's how you can use it:
 
-npm install
-Set Up Firebase
+- **Register as a New User**: When you first open the app, you’ll see options to register. Once registered, you’ll have full access to book accommodations.
+  
+- **Edit Your Profile**: After logging in, you can navigate to your profile. Here you can update your information or even delete your account if you choose.
 
-Create a Firebase project and configure Firebase Authentication and Firestore.
-Add your Firebase configuration to the app.
-Run the Application
+- **View Accommodations**: Browse through images of the hotel and see information on prices, policies, and amenities.
 
+- **Book a Room**: Select the dates you want to stay, specify how many guests and rooms you need, and proceed to payment.
 
-npm start
-Build for Production
+- **Admin Functionality**: If you're an admin, you can log in at the admin panel to manage accommodations, see reservations, and update details.
 
+## Additional Information
 
-npm run build
-Contributing
-Contributions are welcome! Please follow the standard pull request process and ensure that your changes are well-documented. For detailed guidelines, refer to the CONTRIBUTING.md file.
+You can preview the app in action by clicking these links:
+- **User Demo**: [Sunset Heaven Lodge Demo](https://sunsetheaven.vercel.app/)
+- **Admin Demo**: [Admin Portal Demo](https://lodge-admin.vercel.app/)
 
-Figma link:https://www.figma.com/design/F8cn3hGq5zNWooIwWXMB67/lodge-sckeches?node-id=54-126&t=b1DDil8UNUvNWFai-1
+For anyone interested in the design, you can check out the mockups created using Figma here: [Figma Design](https://www.figma.com/design/F8cn3hGq5zNWooIwWXMB67/lodge-sckeches?node-id=54-126&t=b1DDil8UNUvNWFai-1).
 
-Demo Link: https://sunsetheaven.vercel.app/
-Admin-Demo: https://lodge-admin.vercel.app/
